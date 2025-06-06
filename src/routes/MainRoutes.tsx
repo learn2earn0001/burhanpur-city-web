@@ -10,7 +10,7 @@ import Home from '@/Pages/home/Home';
 import LoginPage from '@/Pages/login/Login';
 import RegisterPage from '@/Pages/registration/Registration';
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 
 // Pages
 
