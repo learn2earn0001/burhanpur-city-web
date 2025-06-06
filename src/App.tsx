@@ -1,7 +1,8 @@
 // import { Home } from 'lucide-react';
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from "sonner";
-import Home from './Pages/home/Home';
+// import Home from './Pages/home/Home';
+import MainRoutes from './routes/MainRoutes';
 // import PrivateRoutes from './routes/PrivateRoutes';
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
     {/* <h1>prem</h1> */}
     {/* <Home/> */}
     {/* <PrivateRoutes/> */}
-    <Home/>
-  
+    
+  <MainRoutes/>
     </BrowserRouter>
    </>
   )

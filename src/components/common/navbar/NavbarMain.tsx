@@ -2,12 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 // import Sidebar from "./Sidebar";
 // import { AddListing } from "../AllIcons/AddListing";
 // import UserIcon from "../AllIcons/UserIcon";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import axios from "./../../../axios";
 // import Register from "./Images/Register";
 // import logo from '../ui/Images/logo.jpg';
 import Sidebar from "./navComponent/Sidebar";
 import axios from "@/axois";
+import RegisterPage from "@/Pages/registration/Registration";
+import { FaUser } from "react-icons/fa";
+
  
 
 interface User {
@@ -80,7 +83,7 @@ const NavbarMain: React.FC = () => {
       >
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-3">
+          < Link to="/" className="flex items-center gap-3">
             <img
               src=''
               alt="logo"
@@ -93,24 +96,17 @@ const NavbarMain: React.FC = () => {
             >
               Burhanpur
             </span>
-          </NavLink>
+          </ Link>
 
           {/* Nav Links */}
           <nav className="hidden md:flex items-center gap-8 relative">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `text-xl font-semibold hover:text-blue-600 transition ${
-                  isActive
-                    ? "text-blue-600"
-                    : scrolled
-                    ? "text-gray-700"
-                    : "text-white"
-                }`
-              }
-            >
-              Home
-            </NavLink>
+            <Link
+  to="/"
+   
+>
+  Home
+</Link>
+
 
             <div className="relative group">
               <button
@@ -122,18 +118,18 @@ const NavbarMain: React.FC = () => {
                 Explore
               </button>
               <div className="absolute top-full left-0 mt-2 hidden group-hover:block bg-white shadow-md rounded-md py-2 w-40 z-50">
-                <NavLink
+                <Link
                   to="/explore-more"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   More Explore
-                </NavLink>
-                <NavLink
+                </Link>
+                < Link
                   to="/category"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Category
-                </NavLink>
+                </ Link>
               </div>
             </div>
 
@@ -147,18 +143,18 @@ const NavbarMain: React.FC = () => {
                 Pages
               </button>
               <div className="absolute top-full left-0 mt-2 hidden group-hover:block bg-white shadow-md rounded-md py-2 w-40 z-50">
-                <NavLink
+                < Link
                   to="/about"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   About Us
-                </NavLink>
-                <NavLink
+                </ Link>
+                < Link
                   to="/contact"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Contact Us
-                </NavLink>
+                </ Link>
               </div>
             </div>
           </nav>
@@ -200,7 +196,8 @@ const NavbarMain: React.FC = () => {
                 onClick={() => setShowRegisterModal(true)}
                 aria-label="User Register"
               >
-                {/* <UserIcon fill={scrolled ? "#1f2937" : "white"} /> */}
+                <FaUser fill={scrolled ? "#1f2937" : "white"} />
+
               </button>
             )}
 
@@ -231,7 +228,7 @@ const NavbarMain: React.FC = () => {
       {showRegisterModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
           <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl relative">
-            {/* <Register
+            <RegisterPage
               onClose={() => {
                 setShowRegisterModal(false);
                 // Fetch user again after modal close
@@ -250,7 +247,7 @@ const NavbarMain: React.FC = () => {
                 };
                 fetchUser();
               }}
-            /> */}
+            />
           </div>
         </div>
       )}
