@@ -1,0 +1,33 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "types": [
+      "@tauri-apps/api,@playwright/test",
+      "@playwright/experimental-ct-react/types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@component/*": ["components/*"],
+      "@redux/*": ["redux/*"],
+      "@utills/*": ["utills/*"],
+      "@data/*": ["data/*"]
+    },
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["dom", "esnext"]
+  }
+}
