@@ -1,4 +1,5 @@
 import CategorySection from '@/Pages/categorypart/CategorySection';
+import SubcategoryPage from '@/Pages/categorypart/subcategorypart/SubcategoryPage';
 import ContactUs from '@/Pages/contactpart/Contact';
 import Explore from '@/Pages/explorepart/Explore';
 import ExploreDesktop from '@/Pages/explorepart/explore_component/ExploreDesktop';
@@ -7,6 +8,7 @@ import DargahHakimi from '@/Pages/explorepart/explore_component/ExploreDetails/D
 import Railway from '@/Pages/explorepart/explore_component/ExploreDetails/Railway';
 import ShahiQila from '@/Pages/explorepart/explore_component/ExploreDetails/ShahiQila';
 import Home from '@/Pages/home/Home';
+ 
 import LoginPage from '@/Pages/login/Login';
 import RegisterPage from '@/Pages/registration/Registration';
 import React from 'react';
@@ -21,6 +23,7 @@ const  MainRoutes: React.FC = () => {
     <div>
       <Routes>
         <Route path="/" element={<Home/>} />
+        {/* <Route path="/" element={<AuthPage/>} /> */}
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/Login" element={<LoginPage />} />
         {/* <Route path="/about" element={<About />} /> */}
@@ -31,6 +34,8 @@ const  MainRoutes: React.FC = () => {
         <Route path="/ShahiQila" element={<ShahiQila />} />
         <Route path="/DargahHakimi" element={<DargahHakimi />} />
         <Route path="/category" element={<CategorySection />} />
+        <Route path="/subcategory/:categoryId" element={<SubcategoryPage />} />
+
         {/* <Route path="/subcategory/:categoryId" element={<SubcategoryPage />} />
         <Route path="/subcategorydetail/:id" element={<SubcategoryDetail />} /> */}
         {/* <Route path="/newssection" element={<NewsSection />} /> */}

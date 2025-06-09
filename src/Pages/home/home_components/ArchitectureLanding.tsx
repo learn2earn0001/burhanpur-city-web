@@ -7,7 +7,7 @@ import rajakichatri from "../../../../public/assets/rajakichatri.jpg";
 import shanwara from "../../../../public/assets/shanwaraMain.jpg";
 import shahiqila from "../../../../public/assets/shahiqila.jpg";
 import railway from "../../../../public/assets/detailrailway1.png";
-import NavbarMain from "@/components/common/navbar/NavbarMain";
+// import NavbarMain from "@/components/common/navbar/NavbarMain";
 
 const images: string[] = [gurudwara, rajakichatri, shanwara, shahiqila, railway];
 
@@ -186,7 +186,7 @@ function ArchitectureLanding(): JSX.Element {
       `}</style>
 
             <div className="relative w-full h-screen overflow-hidden">
-                <NavbarMain/>
+                {/* <NavbarMain/> */}
 
                 <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
                     {images.map((img, i) => (

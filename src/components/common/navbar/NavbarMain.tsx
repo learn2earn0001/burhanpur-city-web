@@ -78,7 +78,7 @@ const NavbarMain: React.FC = () => {
     <>
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
-          scrolled ? "bg-white shadow-md" : "bg-transparent"
+          scrolled ? "bg-white shadow-md" : "bg-white"
         }`}
       >
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
@@ -91,7 +91,7 @@ const NavbarMain: React.FC = () => {
             />
             <span
               className={`font-bold text-xl ${
-                scrolled ? "text-gray-900" : "text-white drop-shadow-lg"
+                scrolled ? "text-gray-900" : "text-black drop-shadow-lg"
               }`}
             >
               Burhanpur
@@ -112,7 +112,7 @@ const NavbarMain: React.FC = () => {
               <button
                 type="button"
                 className={`text-xl font-semibold transition ${
-                  scrolled ? "text-gray-700" : "text-white"
+                  scrolled ? "text-gray-700" : "text-black"
                 } group-hover:text-blue-600`}
               >
                 Explore
@@ -137,7 +137,7 @@ const NavbarMain: React.FC = () => {
               <button
                 type="button"
                 className={`text-xl font-semibold transition ${
-                  scrolled ? "text-gray-700" : "text-white"
+                  scrolled ? "text-gray-700" : "text-black"
                 } group-hover:text-blue-600`}
               >
                 Pages
@@ -196,7 +196,7 @@ const NavbarMain: React.FC = () => {
                 onClick={() => setShowRegisterModal(true)}
                 aria-label="User Register"
               >
-                <FaUser fill={scrolled ? "#1f2937" : "white"} />
+                <FaUser fill={scrolled ? "#1f2937" : "black"} />
 
               </button>
             )}
