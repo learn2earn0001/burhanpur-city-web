@@ -8,18 +8,18 @@ import NavbarMain from "@/components/common/navbar/NavbarMain";
 
 const Home: React.FC = () => {
   return (
-    <>
+    <div className="pt-0 h-0"> {/* ✅ Add padding-top to prevent overlap */}
       <NavbarMain />
 
-      <div>
-        <ArchitectureLanding />
-        <CategorySection />
-        <HistoricalTimeline />
-        <TopAttractions />
-        <ContactForm />
-        <Footer />
-      </div>
-    </>
+      {/* <ArchitectureLanding />
+       */}
+<ArchitectureLanding />
+      <CategorySection />
+      <HistoricalTimeline />
+      <TopAttractions />
+      <ContactForm />
+      <Footer />
+    </div>
   );
 };
 
