@@ -1,6 +1,8 @@
 import CategorySection from '@/Pages/categorypart/CategorySection';
 import SubcategoryPage from '@/Pages/categorypart/subcategorypart/SubcategoryPage';
 import ContactUs from '@/Pages/contactpart/Contact';
+import BusinessDashboard from '@/Pages/dashboard/dash_component/BusinessDashboard';
+import Profile from '@/Pages/dashboard/dash_component/ProfilePage';
 import Explore from '@/Pages/explorepart/Explore';
 import ExploreDesktop from '@/Pages/explorepart/explore_component/ExploreDesktop';
 // import ExploreBurhanpur from '@/Pages/explorepart/explore_component/ExploreDesktop';
@@ -23,6 +25,7 @@ const  MainRoutes: React.FC = () => {
     <div>
       <Routes>
         <Route path="/" element={<Home/>} />
+        {/* <Route path="/home" element={<Home/>} /> */}
         {/* <Route path="/" element={<AuthPage/>} /> */}
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/Login" element={<LoginPage />} />
@@ -39,6 +42,9 @@ const  MainRoutes: React.FC = () => {
         {/* <Route path="/subcategory/:categoryId" element={<SubcategoryPage />} />
         <Route path="/subcategorydetail/:id" element={<SubcategoryDetail />} /> */}
         {/* <Route path="/newssection" element={<NewsSection />} /> */}
+        <Route path="/profile" element={<Profile />} />
+      <Route path="/business/dashboard" element={<BusinessDashboard/>} />
+
         <Route path="/registar" element={<RegisterPage />} />
 
         {/* ✅ Admin Route Example */}

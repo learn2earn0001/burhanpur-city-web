@@ -64,6 +64,9 @@ function ArchitectureLanding(): JSX.Element {
     return (
         <>
             <style>{`
+            
+           
+      
         @keyframes panBackground {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
@@ -185,7 +188,10 @@ function ArchitectureLanding(): JSX.Element {
         }
       `}</style>
 
-            <div className="relative w-full h-screen overflow-hidden">
+            <div style={{
+              
+              marginTop:'-200px '
+            }} className="relative w-full h-screen overflow-hidden">
                 {/* <NavbarMain/> */}
 
                 <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">

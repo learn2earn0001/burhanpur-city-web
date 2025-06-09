@@ -3,7 +3,7 @@ import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios'; // 👈 Correct type for interceptor config
 
 const instance = axios.create({
-  baseURL: 'https://burhanpur-city-backend.vercel.app/api/',
+  baseURL: 'https://burhanpur-city-backend-nine.vercel.app/api/',
 });
 
 // Correctly typed interceptor

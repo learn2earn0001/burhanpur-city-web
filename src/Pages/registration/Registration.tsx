@@ -1,158 +1,8 @@
-// import React, { useState, ChangeEvent, FormEvent } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// interface FormData {
-//   name: string;
-//   email: string;
-//   password: string;
-//   confirmPassword: string;
-//   role: "user" | "business";
-// }
-
-// interface StoredUser {
-//   name: string;
-//   email: string;
-//   password: string;
-//   role: "user" | "business";
-//   owner?: string;
-// }
-
-// interface RegisterPageProps {
-//   onClose?: () => void;
-// }
-
-// const RegisterPage: React.FC<RegisterPageProps> = ({ onClose }) => {
-//   const navigate = useNavigate();
-
-//   const [formData, setFormData] = useState<FormData>({
-//     name: "",
-//     email: "",
-//     password: "",
-//     confirmPassword: "",
-//     role: "user", // Default role
-//   });
-
-//   const [error, setError] = useState<string>("");
-
-//   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//     setError("");
-//   };
-
-//   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-
-//     const { name, email, password, confirmPassword, role } = formData;
-
-//     if (!name || !email || !password || !confirmPassword || !role) {
-//       setError("Please fill all fields.");
-//       return;
-//     }
-
-//     if (password !== confirmPassword) {
-//       setError("Passwords do not match.");
-//       return;
-//     }
-
-//     const existingUsers: StoredUser[] = JSON.parse(localStorage.getItem("users") || "[]");
-
-//     const userExists = existingUsers.some((user) => user.email === email);
-
-//     if (userExists) {
-//       setError("User already registered with this email.");
-//       return;
-//     }
-
-//     const newUser: StoredUser = {
-//       name,
-//       email,
-//       password,
-//       role,
-//       ...(role === "business" && { owner: name }), // Add 'owner' key for business
-//     };
-
-//     localStorage.setItem("users", JSON.stringify([...existingUsers, newUser]));
-
-//     alert("Registration successful!");
-
-//     if (onClose) {
-//       onClose();
-//     }
-
-//     navigate("/login");
-//   };
-
-//   return (
-//     <div className="flex justify-center items-center  ">
-//       <div className="w-full max-w-md p-8  rounded-2xl ">
-//         <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">Register</h2>
-
-//         {error && (
-//           <div className="mb-4 text-red-500 text-sm text-center">{error}</div>
-//         )}
-
-//         <form onSubmit={handleSubmit} className="space-y-4">
-//           {["name", "email", "password", "confirmPassword"].map((field) => (
-//             <input
-//               key={field}
-//               type={field.includes("password") ? "password" : field}
-//               name={field}
-//               placeholder={
-//                 field === "confirmPassword"
-//                   ? "Confirm Password"
-//                   : field.charAt(0).toUpperCase() + field.slice(1)
-//               }
-//               value={(formData as any)[field]}
-//               onChange={handleChange}
-//               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//               required
-//             />
-//           ))}
-
-//           {/* Role dropdown */}
-//           <div>
-//             <label className="block text-sm font-medium text-gray-700 mb-1">
-//               Registering as:
-//             </label>
-//             <select
-//               name="role"
-//               value={formData.role}
-//               onChange={handleChange}
-//               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//             >
-//               <option value="user">User</option>
-//               <option value="business">Business</option>
-//             </select>
-//           </div>
-
-//           <button
-//             type="submit"
-//             className="w-full bg-indigo-600 text-white py-2 rounded-xl hover:bg-indigo-700 transition duration-300"
-//           >
-//             Register
-//           </button>
-//         </form>
-
-//         <p className="mt-4 text-center text-gray-600">
-//           Already have an account?{" "}
-//           <span
-//             onClick={() => navigate("/login")}
-//             className="text-indigo-600 hover:underline cursor-pointer"
-//           >
-//             Login here
-//           </span>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default RegisterPage;
-
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiLock, FiEye, FiEyeOff, FiX } from "react-icons/fi";
-import axios from "axios";
+import toast from 'react-hot-toast';
+import axios from "@/axois";
 
 interface RegistrationProps {
   onClose?: () => void;
@@ -161,16 +11,17 @@ interface RegistrationProps {
 interface FormData {
   name: string;
   email: string;
+  phone: string;
   password: string;
   confirmPassword: string;
-  role: "user" | "business";
+  role: "user" | "owner";
 }
 
 const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
 
-  const [phone, setPhone] = useState("");
+  const [loginPhone, setLoginPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -179,73 +30,153 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
     role: "user",
   });
 
-  const handleRegisterChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleRegisterChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
   };
 
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+  
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, email, password, confirmPassword, role } = formData;
-
-    if (!name || !email || !password || !confirmPassword) {
+    const { name, email, phone, password, confirmPassword, role } = formData;
+  
+    if (!name || !email || !phone || !password || !confirmPassword) {
       setError("Please fill all fields.");
       return;
     }
-
+  
+    if (!/^\d{10}$/.test(phone)) {
+      setError("Phone number must be 10 digits.");
+      return;
+    }
+  
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
-    const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-    const userExists = existingUsers.some((user: any) => user.email === email);
-
-    if (userExists) {
-      setError("User already registered with this email.");
-      return;
-    }
-
-    const newUser = {
-      name,
-      email,
-      password,
-      role,
-      ...(role === "business" && { owner: name }),
-    };
-
-    localStorage.setItem("users", JSON.stringify([...existingUsers, newUser]));
-    alert("Registration successful!");
-    setIsLogin(true);
-  };
-
-  const handleLogin = async () => {
-    setLoading(true);
-    setError("");
+  
     try {
-      const res = await axios.post(
-        "https://burhanpur-city-backend.vercel.app/api/Users/adminLogin",
-        { phone, password }
-      );
-      localStorage.setItem("authToken", res.data.token);
-      navigate("/home");
-    } catch (err) {
-      setError("Invalid credentials");
+      setLoading(true);
+      setError("");
+  
+      // 👇 Payload with explicit owner field
+      const payload = {
+        name,
+        email,
+        phone,
+        password,
+        role,
+        owner: role === "owner" ? name : "",  // add owner name if role is owner
+      };
+  
+      console.log("Sending data:", payload);
+  
+      const res = await axios.post("/Users/createUser", payload);
+  
+      console.log("Registration Response:", res.data);
+      toast.success("🎉 Registration successful!");
+      setIsLogin(true);  // Switch to login mode
+    } catch (err: any) {
+      console.error("Registration failed:", err.response?.data || err.message);
+      setError(err.response?.data?.message || "Registration failed.");
     } finally {
       setLoading(false);
     }
   };
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await axios.post('/Users/createUser', formData);
+  //     if (res.data.success) {
+  //       toast.success('🎉 Account created successfully!');
+  //       setFormData({ name: '', phone: '', password: '', email: '', role: '', address: '' });
+  //       setIsLogin(true); // Switch to login mode
+  //     } else {
+  //       toast.error('Registration failed: ' + res.data.message);
+  //     }
+  //   } catch (err) {
+  //     console.error('Registration error:', err);
+  //     toast.error('An error occurred during registration.');
+  //   }
+  // };
+
+
+  
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
+  
+    const formattedPhone = loginPhone.replace(/\s+/g, "").trim();
+  
+    try {
+      const res = await axios.post("/Users/adminLogin", {
+        phone: formattedPhone,
+        password,
+      });
+  
+      console.log("API Response:", res.data.result);
+  
+       
+  
+      
+      const token = res.data.result;
+      // ✅ Save token in localStorage
+      localStorage.setItem("authToken", token);
+      if (!token) {
+        setError("Token not found in response");
+        return;
+      }
+        // token string
+      console.log("Token:", token);
+  
+      // 🔁 Now call another API to get user details
+      const userRes = await axios.get("/Users/getUser", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      // const user = userRes.data.user; // adjust if structure is different
+      console.log("User:", userRes);
+  
+      // if (!user || !user.role) {
+      //   setError("User data not found");
+      //   return;
+      // }
+  
+      // localStorage.setItem("user", JSON.stringify(user));
+  
+      // if (user.role === "owner") {
+      //   navigate("/business/dashboard");
+      // } else {
+      //   navigate("/profile");
+      // }
+  
+      if (onClose) onClose();
+    } catch (err: any) {
+      console.error("Login failed:", err.response?.data || err.message || err);
+      setError(err.response?.data?.message || "Invalid credentials");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  
+  
+  
+  
 
   return (
     <div className="flex justify-center items-center">
       <div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
-
-        {/* ❌ Close Button */}
         {onClose && (
           <button
             onClick={onClose}
@@ -266,8 +197,8 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
             <input
               type="tel"
               placeholder="Phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={loginPhone}
+              onChange={(e) => setLoginPhone(e.target.value)}
               className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
 
@@ -300,10 +231,10 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
           </>
         ) : (
           <form onSubmit={handleRegister} className="space-y-4">
-            {(["name", "email", "password", "confirmPassword"] as const).map((field) => (
+            {(["name", "email", "phone", "password", "confirmPassword"] as const).map((field) => (
               <input
                 key={field}
-                type={field.includes("password") ? "password" : "text"}
+                type={field.includes("password") ? "password" : field === "phone" ? "tel" : "text"}
                 name={field}
                 placeholder={
                   field === "confirmPassword"
@@ -324,7 +255,7 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
               <option value="user">User</option>
-              <option value="business">Business</option>
+              <option value="owner">Owner</option>
             </select>
 
             <button
@@ -351,6 +282,3 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
 };
 
 export default Registration;
-
-
-
