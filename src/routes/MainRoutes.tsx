@@ -9,7 +9,7 @@ import Railway from '@/Pages/explorepart/explore_component/ExploreDetails/Railwa
 import ShahiQila from '@/Pages/explorepart/explore_component/ExploreDetails/ShahiQila';
 import Home from '@/Pages/home/Home';
  
-import LoginPage from '@/Pages/login/Login';
+import LoginPage from '@/Pages/home/login/Login';
 import RegisterPage from '@/Pages/registration/Registration';
 import React from 'react';
 import { Routes, Route} from 'react-router-dom';
