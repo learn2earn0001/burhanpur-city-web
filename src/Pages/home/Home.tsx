@@ -13,25 +13,20 @@ import DashboardMain from "../dashboard/dashboardMain";
 
 const Home: React.FC = () => {
   return (
-    <>
-      <div
 
-      >
+    <div className="pt-0 h-0"> {/* ✅ Add padding-top to prevent overlap */}
+      <NavbarMain />
 
-        <NavbarMain />
-        <ArchitectureLanding />
-        <DashboardMain/>
-        <CategorySection />
-        <HistoricalTimeline />
-        <TopAttractions />
-        <ContactForm />
-        <Footer />
+      {/* <ArchitectureLanding />
+       */}
+<ArchitectureLanding />
+      <CategorySection />
+      <HistoricalTimeline />
+      <TopAttractions />
+      <ContactForm />
+      <Footer />
+    </div>
 
-
-      </div>
-
-
-    </>
   );
 };
 

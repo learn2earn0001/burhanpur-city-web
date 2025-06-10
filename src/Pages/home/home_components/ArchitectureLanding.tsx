@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef, FormEvent, JSX } from "react";
 import { FaSearch } from "react-icons/fa";
- 
-
 import gurudwara from "../../../../public/assets/gurudwara.jpg";
 import rajakichatri from "../../../../public/assets/rajakichatri.jpg";
 import shanwara from "../../../../public/assets/shanwaraMain.jpg";
@@ -100,7 +98,7 @@ function ArchitectureLanding(): JSX.Element {
           justify-content: center;
           user-select: none;
           transition: box-shadow 0.3s ease;
-          margin: -4rem auto 0;
+          margin: 1rem auto 0;
           z-index: 20;
           position: relative;
         }
@@ -212,11 +210,13 @@ function ArchitectureLanding(): JSX.Element {
                     className="relative z-10 flex flex-col items-center justify-center text-center text-white px-6 mt-10 h-full"
                 >
                     <h1
-                        className={`text-2xl md:text-5xl font-bold mb-2 max-w-2xl ${showFlipText ? "animate-flipInX" : "opacity-0"
-                            } text-yellow-400`}
-                    >
-                        Welcome to <br /> The Historical City of Heritage & Glory
-                    </h1>
+                        className={`text-2xl md:text-5xl font-bold mb-2 max-w-2xl ${
+                          showFlipText ? "animate-flipInX" : "opacity-0"
+                           } text-yellow-400`}
+>
+                         Welcome to <br /> The Historical City of Heritage & Glory
+                           </h1>
+
 
                     <p
                         className={`text-md max-w-xl mb-5 mt-5 transition-opacity duration-700 ${showFadeText ? "opacity-100" : "opacity-0"

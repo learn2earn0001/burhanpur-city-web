@@ -10,24 +10,10 @@ export default {
           "100%": { backgroundPosition: "-200% 0" },
         },
         gradientFlow: {
-          "0%": { "background-position": "0% 50%" },
-          "50%": { "background-position": "100% 50%" },
-          "100%": { "background-position": "0% 50%" },
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
         },
-      },
-      colors: {
-        ternary: "#E7A100",
-      },
-      fontFamily: {
-        inter: ['"Plus Jakarta Sans"', "sans-serif"],
-      },
-
-      animation: {
-        shine: "shine 3s ease-out infinite",
-        "gradient-flow":
-          "gradientFlow 10s ease 0s infinite normal none running",
-      },
-      keyframes: {
         "slide-in-left": {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(0)" },
@@ -36,15 +22,43 @@ export default {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-100%)" },
         },
+        "auto-scroll": {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
       },
       animation: {
+        shine: "shine 3s ease-out infinite",
+        "gradient-flow": "gradientFlow 10s ease infinite",
         "slide-in-left": "slide-in-left 0.3s ease-out forwards",
         "slide-out-left": "slide-out-left 0.3s ease-in forwards",
+        "auto-scroll": "auto-scroll 40s linear infinite",
+      },
+      colors: {
+        ternary: "#E7A100",
+      },
+      fontFamily: {
+        inter: ['"Plus Jakarta Sans"', "sans-serif"],
       },
     },
   },
-  plugins: [],
-
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".scrollbar-hide": {
+          /* Firefox */
+          "scrollbar-width": "none",
+          /* IE 10+ */
+          "-ms-overflow-style": "none",
+          /* Chrome, Safari and Opera */
+          "overflow": "auto",
+        },
+        ".scrollbar-hide::-webkit-scrollbar": {
+          display: "none",
+          width: "0px",
+          height: "0px",
+        },
+      });
+    },
+  ],
 };
-
-

@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Link } from "react-router-dom";
 import { FiUser, FiLogOut, FiGrid, FiBox, FiClipboard, FiGift } from "react-icons/fi";
 
@@ -8,6 +9,7 @@ interface Props {
   } | null;
   showDropdown: boolean;
   setShowDropdown: (show: boolean) => void;
+
   onLogout: () => void;
   scrolled: boolean;
   onOpenRegister: () => void;
@@ -15,12 +17,11 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({
   user,
-  showDropdown,
-  setShowDropdown,
   onLogout,
   scrolled,
   onOpenRegister,
 }) => {
+
   const firstLetter = user?.name?.charAt(0).toUpperCase() || "U";
 
   return (
@@ -83,6 +84,7 @@ const UserMenu: React.FC<Props> = ({
         </div>
       )}
     </div>
+
   );
 };
 
