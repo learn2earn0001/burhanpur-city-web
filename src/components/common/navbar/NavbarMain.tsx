@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Logo from "./navComponent/Logo";
+ 
 import NavLinks from "./navComponent/NavLinks";
 import UserMenu from "./navComponent/UserMenu";
 import Sidebar from "./navComponent/Sidebar";
 import RegisterModal from "./navComponent/RegisterModel";
+import Logo from "./navComponent/Logo";
 
 interface User {
   name?: string;
@@ -44,8 +45,8 @@ const NavbarMain: React.FC = () => {
   return (
     <>
       {/* Fixed, always visible Navbar */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+      <header  className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+        <div   className="max-w-screen-xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           <Logo scrolled={true} />
           <NavLinks scrolled={true} />
           <div className="flex items-center gap-4">
@@ -74,7 +75,7 @@ const NavbarMain: React.FC = () => {
       </header>
 
       {/* Push content below fixed navbar with smaller gap */}
-      <div className="h-0" />
+      <div className="h-16" />
 
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />

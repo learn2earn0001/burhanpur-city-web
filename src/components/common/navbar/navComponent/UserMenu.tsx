@@ -1,28 +1,15 @@
 import React from "react";
-import { FaUser } from "react-icons/fa";
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from "../../../ui/avatar"; // path check kar lena
 
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuPortal,
-} from "@/components/ui/dropdown-menu"; // Yeh tumhara Radix dropdown component path hona chahiye
-
-interface User {
-  name?: string;
-  email?: string;
-  phone?: string;
-  avatarUrl?: string;
-}
+import { Link } from "react-router-dom";
+import { FiUser, FiLogOut, FiGrid, FiBox, FiClipboard, FiGift } from "react-icons/fi";
 
 interface Props {
-  user: User | null;
+  user: {
+    name?: string;
+  } | null;
+  showDropdown: boolean;
+  setShowDropdown: (show: boolean) => void;
+
   onLogout: () => void;
   scrolled: boolean;
   onOpenRegister: () => void;
@@ -34,50 +21,70 @@ const UserMenu: React.FC<Props> = ({
   scrolled,
   onOpenRegister,
 }) => {
-  if (!user) {
-    return (
-      <button onClick={onOpenRegister} aria-label="Register/Login">
-        <FaUser fill={scrolled ? "#1f2937" : "#ffffff"} className="w-6 h-6" />
-      </button>
-    );
-  }
+
+  const firstLetter = user?.name?.charAt(0).toUpperCase() || "U";
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <div className="relative">
+      {user ? (
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
+          <span className="text-sm mr-2">Hi! {user.name}</span>
+          <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+            {firstLetter}
+          </div>
+        </div>
+      ) : (
         <button
-          aria-label="User menu"
-          className="focus:outline-none"
+          onClick={onOpenRegister}
+          className="bg-indigo-600 text-white px-4 py-1 rounded-md hover:bg-indigo-700"
         >
-          <Avatar className="w-10 h-10 border-2 border-red-500 bg-indigo-100">
-            <AvatarImage
-              src={user.avatarUrl || "https://avatar.iran.liara.run/public/44"}
-              alt={user.name || "User Avatar"}
-            />
-            <AvatarFallback className="text-indigo-600 font-bold text-lg">
-              {user.name?.charAt(0).toUpperCase() || <FaUser />}
-            </AvatarFallback>
-          </Avatar>
+          Login / Register
         </button>
-      </DropdownMenuTrigger>
+      )}
 
-      <DropdownMenuPortal>
-        <DropdownMenuContent
-          sideOffset={6}
-          className="w-64 bg-white rounded-md shadow-lg p-4"
-        >
-          <p className="text-sm font-semibold">👤 {user.name}</p>
-          <p className="text-sm text-gray-600 truncate">📧 {user.email}</p>
-          <p className="text-sm text-gray-600">📱 {user.phone}</p>
-          <DropdownMenuItem
-            className="mt-4 cursor-pointer bg-red-500 text-white rounded-md px-3 py-2 text-center hover:bg-red-600"
-            onSelect={onLogout}
+      {showDropdown && user && (
+        <div className="absolute right-0 mt-3 bg-white shadow-lg rounded-xl p-4 w-60 z-50">
+          <p className="font-medium text-gray-700 mb-2">Welcome!</p>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <Link to="/business/dashboard" className="flex items-center gap-2 hover:text-indigo-600">
+                <FiGrid /> Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link to="/profile" className="flex items-center gap-2 hover:text-indigo-600">
+                <FiUser /> Profile
+              </Link>
+            </li>
+            <li>
+              <Link to="/inquiries" className="flex items-center gap-2 hover:text-indigo-600">
+                <FiClipboard /> Inquiries
+              </Link>
+            </li>
+            <li>
+              <Link to="/buy-leads" className="flex items-center gap-2 hover:text-indigo-600">
+                <FiBox /> Buy Leads
+              </Link>
+            </li>
+            <li>
+              <Link to="/membership" className="flex items-center gap-2 hover:text-indigo-600">
+                <FiGift /> My Membership
+              </Link>
+            </li>
+          </ul>
+          <button
+            onClick={onLogout}
+            className="mt-4 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 rounded-md text-sm flex items-center justify-center gap-2"
           >
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenuPortal>
-    </DropdownMenu>
+            <FiLogOut /> Sign Out
+          </button>
+        </div>
+      )}
+    </div>
+
   );
 };
 

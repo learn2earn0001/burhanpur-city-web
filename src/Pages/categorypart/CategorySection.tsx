@@ -1,10 +1,12 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import axois from '@/axois';
 import { useNavigate } from 'react-router-dom';
 
+
 interface Category {
-  _id?: string;
+  _id: string;
   title?: string;
   name?: string;
   image: string;
@@ -82,9 +84,11 @@ const CategorySection: React.FC = () => {
   const visibleCategories = data.slice(0, MAX_VISIBLE);
   const hiddenCategories = data.slice(MAX_VISIBLE);
 
+
   const filteredCategories = hiddenCategories.filter((category) =>
     (category.title || category.name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
+
 
   const closeModal = () => {
     setShowMore(false);
@@ -101,6 +105,8 @@ const CategorySection: React.FC = () => {
   };
 
   return (
+
+
     <>
       {/* Embedded style for scrollbar hide */}
       <style>{`
@@ -230,6 +236,7 @@ const CategorySection: React.FC = () => {
         )}
       </div>
     </>
+
   );
 };
 
