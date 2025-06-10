@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
  
 import NavLinks from "./navComponent/NavLinks";
-import UserMenu from "./navComponent/UserMenu";
+ 
 import Sidebar from "./navComponent/Sidebar";
 import RegisterModal from "./navComponent/RegisterModel";
 import Logo from "./navComponent/Logo";
+import UserMenu from "./navComponent/UserMenu";
 
 interface User {
   name?: string;
@@ -18,6 +19,8 @@ const NavbarMain: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [showProfileDropdown , setShowProfileDropdown] = useState(false);
+  // const [setShowDropdown,setShowDropdown]=useState
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,7 +28,7 @@ const NavbarMain: React.FC = () => {
       if (token) {
         try {
           const res = await axios.get("/Users/userDetails", {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${token} `},
           });
           if (res.data.success) setUser(res.data.user);
         } catch {
@@ -52,6 +55,8 @@ const NavbarMain: React.FC = () => {
           <div className="flex items-center gap-4">
             <UserMenu
               user={user}
+              showDropdown={showProfileDropdown}
+              setShowDropdown={setShowProfileDropdown}
               onLogout={handleLogout}
               scrolled={true}
               onOpenRegister={() => setShowRegisterModal(true)}
@@ -75,7 +80,7 @@ const NavbarMain: React.FC = () => {
       </header>
 
       {/* Push content below fixed navbar with smaller gap */}
-      <div className="h-16" />
+      <div className="h-20" />
 
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
