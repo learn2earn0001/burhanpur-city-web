@@ -14,7 +14,7 @@ import DashboardMain from "../dashboard/dashboardMain";
 const Home: React.FC = () => {
   return (
 
-    <div className="pt-0 h-0"> {/* ✅ Add padding-top to prevent overlap */}
+    <div className="pt-2 h-0"> {/* ✅ Add padding-top to prevent overlap */}
       <NavbarMain />
 
       {/* <ArchitectureLanding />

@@ -1,15 +1,11 @@
-import React from "react";
-
-import { Link } from "react-router-dom";
-import { FiUser, FiLogOut, FiGrid, FiBox, FiClipboard, FiGift } from "react-icons/fi";
+import React, { useRef, useEffect } from "react";
+import { FaUser } from "react-icons/fa";
+import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"; // Make sure this path is correct
 
 interface Props {
-  user: {
-    name?: string;
-  } | null;
+  user: { name?: string; email?: string; phone?: string; avatarUrl?: string } | null;
   showDropdown: boolean;
-  setShowDropdown: (show: boolean) => void;
-
+  setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   onLogout: () => void;
   scrolled: boolean;
   onOpenRegister: () => void;
@@ -17,74 +13,65 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({
   user,
+  showDropdown,
+  setShowDropdown,
   onLogout,
   scrolled,
   onOpenRegister,
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const firstLetter = user?.name?.charAt(0).toUpperCase() || "U";
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [setShowDropdown]);
+
+  if (!user) {
+    return (
+      <button onClick={onOpenRegister} aria-label="User Register">
+        <FaUser fill={scrolled ? "#1f2937" : "black"} />
+      </button>
+    );
+  }
 
   return (
-    <div className="relative">
-      {user ? (
-        <div
-          className="flex items-center cursor-pointer"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <span className="text-sm mr-2">Hi! {user.name}</span>
-          <div className="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
-            {firstLetter}
-          </div>
-        </div>
-      ) : (
-        <button
-          onClick={onOpenRegister}
-          className="bg-indigo-600 text-white px-4 py-1 rounded-md hover:bg-indigo-700"
-        >
-          Login / Register
-        </button>
-      )}
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setShowDropdown((prev) => !prev)}
+        aria-label="User menu"
+        className="focus:outline-none"
+      >
+        <Avatar className="w-10 h-10 border-2 border-red-500 bg-indigo-100">
+         <AvatarImage
+  src="https://avatar.iran.liara.run/public/44"
+  alt={user.name || "User Avatar"}
+/>
 
-      {showDropdown && user && (
-        <div className="absolute right-0 mt-3 bg-white shadow-lg rounded-xl p-4 w-60 z-50">
-          <p className="font-medium text-gray-700 mb-2">Welcome!</p>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link to="/business/dashboard" className="flex items-center gap-2 hover:text-indigo-600">
-                <FiGrid /> Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link to="/profile" className="flex items-center gap-2 hover:text-indigo-600">
-                <FiUser /> Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/inquiries" className="flex items-center gap-2 hover:text-indigo-600">
-                <FiClipboard /> Inquiries
-              </Link>
-            </li>
-            <li>
-              <Link to="/buy-leads" className="flex items-center gap-2 hover:text-indigo-600">
-                <FiBox /> Buy Leads
-              </Link>
-            </li>
-            <li>
-              <Link to="/membership" className="flex items-center gap-2 hover:text-indigo-600">
-                <FiGift /> My Membership
-              </Link>
-            </li>
-          </ul>
+          <AvatarFallback className="text-indigo-600 font-bold text-lg">
+            {user.name?.charAt(0).toUpperCase() || <FaUser />}
+          </AvatarFallback>
+        </Avatar>
+      </button>
+
+      {showDropdown && (
+        <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md p-4 z-50 w-60">
+          <p className="text-sm font-semibold">👤 {user.name}</p>
+          <p className="text-sm text-gray-600">📧 {user.email}</p>
+          <p className="text-sm text-gray-600">📱 {user.phone}</p>
           <button
             onClick={onLogout}
-            className="mt-4 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-1 rounded-md text-sm flex items-center justify-center gap-2"
+            className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md text-sm"
           >
-            <FiLogOut /> Sign Out
+            Logout
           </button>
         </div>
       )}
     </div>
-
   );
 };
 

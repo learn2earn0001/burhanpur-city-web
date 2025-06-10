@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import axois from '@/axois';
+import axois from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
