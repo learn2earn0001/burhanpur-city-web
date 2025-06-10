@@ -10,13 +10,13 @@ interface User {
   name?: string;
   email?: string;
   phone?: string;
+  avatarUrl?: string;
 }
 
 const NavbarMain: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -39,7 +39,6 @@ const NavbarMain: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    setShowProfileDropdown(false);
   };
 
   return (
@@ -52,8 +51,6 @@ const NavbarMain: React.FC = () => {
           <div className="flex items-center gap-4">
             <UserMenu
               user={user}
-              showDropdown={showProfileDropdown}
-              setShowDropdown={setShowProfileDropdown}
               onLogout={handleLogout}
               scrolled={true}
               onOpenRegister={() => setShowRegisterModal(true)}

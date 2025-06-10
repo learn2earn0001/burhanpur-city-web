@@ -1,10 +1,18 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { FaUser } from "react-icons/fa";
 import {
   Avatar,
   AvatarImage,
   AvatarFallback,
-} from "../../../ui/avatar"; // Ensure path is correct
+} from "../../../ui/avatar"; // path check kar lena
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+} from "@/components/ui/dropdown-menu"; // Yeh tumhara Radix dropdown component path hona chahiye
 
 interface User {
   name?: string;
@@ -15,8 +23,6 @@ interface User {
 
 interface Props {
   user: User | null;
-  showDropdown: boolean;
-  setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   onLogout: () => void;
   scrolled: boolean;
   onOpenRegister: () => void;
@@ -24,27 +30,10 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({
   user,
-  showDropdown,
-  setShowDropdown,
   onLogout,
   scrolled,
   onOpenRegister,
 }) => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [setShowDropdown]);
-
   if (!user) {
     return (
       <button onClick={onOpenRegister} aria-label="Register/Login">
@@ -54,37 +43,41 @@ const UserMenu: React.FC<Props> = ({
   }
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <button
-        onClick={() => setShowDropdown((prev) => !prev)}
-        aria-label="Toggle user menu"
-        className="focus:outline-none"
-      >
-        <Avatar className="w-10 h-10 border-2 border-red-500 bg-indigo-100">
-          <AvatarImage
-            src={user.avatarUrl || "https://avatar.iran.liara.run/public/44"}
-            alt={user.name || "User Avatar"}
-          />
-          <AvatarFallback className="text-indigo-600 font-bold text-lg">
-            {user.name?.charAt(0).toUpperCase() || <FaUser />}
-          </AvatarFallback>
-        </Avatar>
-      </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          aria-label="User menu"
+          className="focus:outline-none"
+        >
+          <Avatar className="w-10 h-10 border-2 border-red-500 bg-indigo-100">
+            <AvatarImage
+              src={user.avatarUrl || "https://avatar.iran.liara.run/public/44"}
+              alt={user.name || "User Avatar"}
+            />
+            <AvatarFallback className="text-indigo-600 font-bold text-lg">
+              {user.name?.charAt(0).toUpperCase() || <FaUser />}
+            </AvatarFallback>
+          </Avatar>
+        </button>
+      </DropdownMenuTrigger>
 
-      {showDropdown && (
-        <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-md p-4 z-50">
+      <DropdownMenuPortal>
+        <DropdownMenuContent
+          sideOffset={6}
+          className="w-64 bg-white rounded-md shadow-lg p-4"
+        >
           <p className="text-sm font-semibold">👤 {user.name}</p>
           <p className="text-sm text-gray-600 truncate">📧 {user.email}</p>
           <p className="text-sm text-gray-600">📱 {user.phone}</p>
-          <button
-            onClick={onLogout}
-            className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md text-sm"
+          <DropdownMenuItem
+            className="mt-4 cursor-pointer bg-red-500 text-white rounded-md px-3 py-2 text-center hover:bg-red-600"
+            onSelect={onLogout}
           >
             Logout
-          </button>
-        </div>
-      )}
-    </div>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenuPortal>
+    </DropdownMenu>
   );
 };
 
