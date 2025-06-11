@@ -35,6 +35,21 @@ const NavLinks: React.FC<Props> = ({ scrolled }) => {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
+        {/* Pricing - ✅ NEW LINK */}
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+              to="/pricing"
+              className={cn(
+                "text-base font-semibold transition-colors hover:text-blue-600",
+                textColor
+              )}
+            >
+              Pricing
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
         {/* Explore */}
         <NavigationMenuItem>
           <NavigationMenuTrigger
@@ -92,6 +107,7 @@ const NavLinks: React.FC<Props> = ({ scrolled }) => {
                 Contact Us
               </Link>
             </NavigationMenuLink>
+            
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
