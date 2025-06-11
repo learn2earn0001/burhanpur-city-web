@@ -48,7 +48,7 @@ const NavLinks: React.FC<Props> = ({ scrolled }) => {
           <NavigationMenuContent className="bg-white rounded-md shadow-lg p-2 min-w-[180px] space-y-1">
             <NavigationMenuLink asChild>
               <Link
-                to="/explore-more"
+                to="/explore"
                 className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
               >
                 More Explore
@@ -93,6 +93,20 @@ const NavLinks: React.FC<Props> = ({ scrolled }) => {
               </Link>
             </NavigationMenuLink>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+            to={'/dash'}
+              
+              className={cn(
+                "text-base font-semibold transition-colors hover:text-blue-600",
+                textColor
+              )}
+            >
+              Buissnes
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
