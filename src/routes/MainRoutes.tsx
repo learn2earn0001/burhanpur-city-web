@@ -12,9 +12,11 @@ import ShahiQila from '@/Pages/explorepart/explore_component/ExploreDetails/Shah
 import Home from '@/Pages/home/Home';
  
 import LoginPage from '@/Pages/home/login/Login';
+import Plans from '@/Pages/plans/Plans';
 import RegisterPage from '@/Pages/registration/Registration';
 import React from 'react';
 import { Routes, Route} from 'react-router-dom';
+
 
 // Pages
 
@@ -37,15 +39,20 @@ const  MainRoutes: React.FC = () => {
         <Route path="/ShahiQila" element={<ShahiQila />} />
         <Route path="/DargahHakimi" element={<DargahHakimi />} />
         <Route path="/category" element={<CategorySection />} />
+        <Route path="/pricing" element={<Plans />}/>
+
         <Route path="/subcategory/:categoryId" element={<SubcategoryPage />} />
+        
 
         {/* <Route path="/subcategory/:categoryId" element={<SubcategoryPage />} />
         <Route path="/subcategorydetail/:id" element={<SubcategoryDetail />} /> */}
         {/* <Route path="/newssection" element={<NewsSection />} /> */}
         <Route path="/profile" element={<Profile />} />
       <Route path="/business/dashboard" element={<BusinessDashboard/>} />
+      
 
         <Route path="/registar" element={<RegisterPage />} />
+        
 
         {/* ✅ Admin Route Example */}
         {/* <Route path="/dash" element={<Dashboard />} />

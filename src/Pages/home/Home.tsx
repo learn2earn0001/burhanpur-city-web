@@ -7,6 +7,7 @@ import CategorySection from "../categorypart/CategorySection";
 
 import NavbarMain from "@/components/common/navbar/NavbarMain";
 import DashboardMain from "../dashboard/dashboardMain";
+import Plans from "../plans/Plans";
 // import NavbarMain from "@/components/common/navbar/NavbarMain";
  
 
@@ -23,6 +24,7 @@ const Home: React.FC = () => {
       <CategorySection />
       <HistoricalTimeline />
       <TopAttractions />
+      <Plans/>
       <ContactForm />
       <Footer />
     </div>
