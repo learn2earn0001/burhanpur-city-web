@@ -115,50 +115,50 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
     setError("");
   
     const formattedPhone = loginPhone.replace(/\s+/g, "").trim();
+    console.log("Phone:", formattedPhone, "Password:", password);
   
     try {
-      const res = await axios.post("/Users/adminLogin", {
+      const res = await axios.post("/Users/login", {
         phone: formattedPhone,
         password,
       });
   
-      console.log("API Response:", res.data.result);
+      console.log("API Response:", res.data);
   
-       
+      if (!res.data.success) {
+        setError(res.data.message || "Login failed");
+        return;
+      }
   
-      
       const token = res.data.result;
-      // ✅ Save token in localStorage
-      localStorage.setItem("authToken", token);
       if (!token) {
         setError("Token not found in response");
         return;
       }
-        // token string
-      console.log("Token:", token);
   
-      // 🔁 Now call another API to get user details
-      const userRes = await axios.get("/Users/getUser", {
+      localStorage.setItem("authToken", token);
+  
+      const userRes = await axios.get("/Users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
   
-      // const user = userRes.data.user; // adjust if structure is different
-      console.log("User:", userRes);
+      const user = userRes.data.result;
+      console.log("User:", user);
   
-      // if (!user || !user.role) {
-      //   setError("User data not found");
-      //   return;
-      // }
+      if (!user || !user.role) {
+        setError("User data not found or role missing");
+        return;
+      }
   
-      // localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
   
-      // if (user.role === "owner") {
-      //   navigate("/business/dashboard");
-      // } else {
-      //   navigate("/profile");
-      // }
+      if (user.role === "owner") {
+        navigate("/business/dashboard");
+      } else {
+        navigate("/profile");
+      }
   
       if (onClose) onClose();
     } catch (err: any) {
@@ -168,6 +168,7 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
       setLoading(false);
     }
   };
+  
   
   
   

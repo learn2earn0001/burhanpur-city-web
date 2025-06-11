@@ -21,6 +21,7 @@ const Home: React.FC = () => {
       {/* <ArchitectureLanding />
        */}
 <ArchitectureLanding />
+{/* <Dashboard/> */}
       <CategorySection />
       <HistoricalTimeline />
       <TopAttractions />
