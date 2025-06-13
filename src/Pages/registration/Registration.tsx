@@ -87,21 +87,31 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const handleLogin = async () => {
     setLoading(true);
     setError("");
-
+  
+    const formattedPhone = loginPhone.replace(/\s+/g, "").trim();
+    console.log("Phone:", formattedPhone, "Password:", password);
+  
     try {
-      const res = await axios.post("/Users/adminLogin", {
-        phone: loginPhone.trim(),
+      const res = await axios.post("/Users/login", {
+        phone: formattedPhone,
         password,
       });
-
+  
+      console.log("API Response:", res.data);
+  
+      if (!res.data.success) {
+        setError(res.data.message || "Login failed");
+        return;
+      }
+  
       const token = res.data.result;
       if (!token) {
         setError("Token not found.");
         return;
       }
-
       localStorage.setItem("authToken", token);
-      const userRes = await axios.get("/Users/getUser", {
+  
+      const userRes = await axios.get("/Users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,7 +124,6 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
       setLoading(false);
     }
   };
-
   return (
     <div className="w-full max-w-md mx-auto px-4">
       <div className="relative bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-2xl">

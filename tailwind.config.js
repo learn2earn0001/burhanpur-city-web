@@ -35,6 +35,8 @@ export default {
         "auto-scroll": "auto-scroll 40s linear infinite",
       },
       colors: {
+        primary: "#B079C2",
+        secondary: "#FCB4D4",
         ternary: "#E7A100",
       },
       fontFamily: {

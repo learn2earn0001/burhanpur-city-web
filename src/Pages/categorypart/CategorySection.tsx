@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import axois from 'axios';
+// import axois from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from '@/axois';
+// import axios from 'axios';
 
 
 interface Category {
@@ -26,15 +28,35 @@ const CategorySection: React.FC = () => {
   const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    axois
-      .get(`/category/getCategory?ts=${Date.now()}`)
+    // create a cancel token so we can abort the request on unmount
+    // const source = axios.CancelToken.source();
+
+    axios
+      .get(
+        "/category/getCategory",
+        // { cancelToken: source.token }
+      )
       .then((res) => {
-        setData(res?.data?.data || []);
+        console.log("Fetched:", res.data?.data);
+        if (Array.isArray(res.data?.data)) {
+          setData(res.data.data);
+        } else if (Array.isArray(res.data)) {
+          setData(res.data);
+        } else {
+          console.error("Unexpected API format");
+        }
       })
       .catch((err) => {
-        console.error('Error fetching categories:', err);
+        if ((err)) return; // request was cancelled
+        console.error("API Error:", err);
       });
+
+    // clean-up: cancel request if component unmounts
+    // return () => source.cancel();
   }, []);
+  
+  
+  
 
   const startAutoScroll = () => {
     const scrollContainer = scrollRef.current;
