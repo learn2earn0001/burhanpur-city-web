@@ -1,179 +1,150 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { FiLock, FiEye, FiEyeOff } from "react-icons/fi";
-// import axios from "axios";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-// const AuthPage = () => {
-//   const [isLogin, setIsLogin] = useState(false);
-//   const navigate = useNavigate();
+const AuthPage: React.FC = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-//   // Shared states for Login
-//   const [phone, setPhone] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [error, setError] = useState("");
-//   const [loading, setLoading] = useState(false);
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError(null);
 
-//   // Shared states for Register
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//     confirmPassword: "",
-//     role: "user",
-//   });
+    try {
+      if (isLogin) {
+        // Login API
+        const res = await axios.post(
+          "https://burhanpur-city-backend.vercel.app/api/Users/adminLogin",
+          {
+            phone: username,
+            password,
+          }
+        );
+        localStorage.setItem("authToken", res.data.token);
+        navigate("/home");
+      } else {
+        // Signup API
+        const res = await axios.post(
+          "https://burhanpur-city-backend.vercel.app/api/Users/register",
+          {
+            name: fullName,
+            email,
+            phone: username,
+            password,
+          }
+        );
+        localStorage.setItem("authToken", res.data.token);
+        navigate("/home");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Check your credentials or try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-//   const handleRegisterChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//     setError("");
-//   };
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#e0e7ff]">
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 bg-gradient-to-r from-purple-700 to-indigo-900 rounded-xl shadow-lg overflow-hidden">
+        <div className="p-10 text-white flex flex-col justify-center">
+          <div className="text-yellow-400 font-bold text-lg mb-2">Company Logo</div>
+          <h1 className="text-4xl font-bold mb-2">Welcome</h1>
+          <h2 className="text-2xl text-yellow-400 font-semibold mb-4">
+            {isLogin ? "Login to your account" : "Create an account"}
+          </h2>
+          <p className="text-sm text-gray-200">
+            {isLogin
+              ? "Enter your credentials to access the dashboard."
+              : "Sign up to start using our platform."}
+          </p>
+        </div>
 
-//   const handleRegister = (e) => {
-//     e.preventDefault();
-//     const { name, email, password, confirmPassword, role } = formData;
+        <div className="bg-white p-10 flex flex-col justify-center">
+          <h3 className="text-gray-700 text-xl font-semibold mb-6">
+            {isLogin ? "Login" : "Sign Up"}
+          </h3>
 
-//     if (!name || !email || !password || !confirmPassword) {
-//       setError("Please fill all fields.");
-//       return;
-//     }
-//     if (password !== confirmPassword) {
-//       setError("Passwords do not match.");
-//       return;
-//     }
+          {!isLogin && (
+            <>
+              <Input
+                type="text"
+                placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="mb-4"
+              />
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mb-4"
+              />
+            </>
+          )}
 
-//     const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-//     const userExists = existingUsers.some((user) => user.email === email);
-//     if (userExists) {
-//       setError("User already registered with this email.");
-//       return;
-//     }
+          <Input
+            type="tel"
+            placeholder="Phone Number"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="mb-4"
+          />
 
-//     const newUser = {
-//       name,
-//       email,
-//       password,
-//       role,
-//       ...(role === "business" && { owner: name }),
-//     };
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mb-4"
+          />
 
-//     localStorage.setItem("users", JSON.stringify([...existingUsers, newUser]));
-//     alert("Registration successful!");
-//     setIsLogin(true); // Switch to login after registration
-//   };
+          {error && <p className="text-red-500 text-sm text-center mb-2">{error}</p>}
 
-//   const handleLogin = async () => {
-//     setLoading(true);
-//     setError("");
-//     try {
-//       const res = await axios.post("https://burhanpur-city-backend.vercel.app/api/Users/adminLogin", {
-//         phone,
-//         password,
-//       });
-//       localStorage.setItem("authToken", res.data.token);
-//       navigate("/home");
-//     } catch (err) {
-//       setError("Invalid credentials");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+          <Button
+            onClick={handleSubmit}
+            className="bg-yellow-400 text-white font-bold py-2 px-4 rounded"
+            disabled={loading}
+          >
+            {loading ? (isLogin ? "Logging in..." : "Signing up...") : isLogin ? "LOGIN" : "SIGN UP"}
+          </Button>
 
-//   return (
-//     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
-//       <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
-//         <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">
-//           {isLogin ? "Admin Login" : "Register"}
-//         </h2>
+          <p className="text-sm text-gray-600 mt-6 text-center">
+            {isLogin ? (
+              <>
+                New here?{" "}
+                <span
+                  onClick={() => setIsLogin(false)}
+                  className="text-blue-600 font-semibold cursor-pointer"
+                >
+                  Sign Up
+                </span>
+              </>
+            ) : (
+              <>
+                Already have an account?{" "}
+                <span
+                  onClick={() => setIsLogin(true)}
+                  className="text-blue-600 font-semibold cursor-pointer"
+                >
+                  Login
+                </span>
+              </>
+            )}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-//         {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
-
-//         {isLogin ? (
-//           <>
-//             <input
-//               type="tel"
-//               placeholder="Phone"
-//               value={phone}
-//               onChange={(e) => setPhone(e.target.value)}
-//               className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//             />
-
-//             <div className="relative mb-4">
-//               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-//                 <FiLock size={20} />
-//               </span>
-//               <input
-//                 type={showPassword ? "text" : "password"}
-//                 placeholder="Password"
-//                 value={password}
-//                 onChange={(e) => setPassword(e.target.value)}
-//                 className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//               />
-//               <span
-//                 onClick={() => setShowPassword(!showPassword)}
-//                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
-//               >
-//                 {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-//               </span>
-//             </div>
-
-//             <button
-//               onClick={handleLogin}
-//               disabled={loading}
-//               className="w-full bg-indigo-600 text-white py-2 rounded-xl hover:bg-indigo-700 transition duration-300"
-//             >
-//               {loading ? "Loading..." : "Login"}
-//             </button>
-//           </>
-//         ) : (
-//           <form onSubmit={handleRegister} className="space-y-4">
-//             {["name", "email", "password", "confirmPassword"].map((field) => (
-//               <input
-//                 key={field}
-//                 type={field.includes("password") ? "password" : "text"}
-//                 name={field}
-//                 placeholder={
-//                   field === "confirmPassword"
-//                     ? "Confirm Password"
-//                     : field.charAt(0).toUpperCase() + field.slice(1)
-//                 }
-//                 value={formData[field]}
-//                 onChange={handleRegisterChange}
-//                 className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//                 required
-//               />
-//             ))}
-
-//             <select
-//               name="role"
-//               value={formData.role}
-//               onChange={handleRegisterChange}
-//               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
-//             >
-//               <option value="user">User</option>
-//               <option value="business">Business</option>
-//             </select>
-
-//             <button
-//               type="submit"
-//               className="w-full bg-indigo-600 text-white py-2 rounded-xl hover:bg-indigo-700 transition duration-300"
-//             >
-//               Register
-//             </button>
-//           </form>
-//         )}
-
-//         <p className="mt-4 text-center text-gray-600">
-//           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-//           <span
-//             onClick={() => setIsLogin(!isLogin)}
-//             className="text-indigo-600 hover:underline cursor-pointer"
-//           >
-//             {isLogin ? "Register here" : "Login here"}
-//           </span>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AuthPage;
+export default AuthPage;
