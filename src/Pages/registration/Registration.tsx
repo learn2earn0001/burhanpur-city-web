@@ -87,26 +87,51 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const handleLogin = async () => {
     setLoading(true);
     setError("");
-
+  
+    const formattedPhone = loginPhone.replace(/\s+/g, "").trim();
+  
     try {
       const res = await axios.post("/Users/adminLogin", {
-        phone: loginPhone.trim(),
+        phone: formattedPhone,
         password,
       });
-
+  
+      console.log("API Response:", res.data.result);
+  
+       
+  
+      
       const token = res.data.result;
       if (!token) {
         setError("Token not found.");
         return;
       }
-
-      localStorage.setItem("authToken", token);
+        // token string
+      console.log("Token:", token);
+  
+      // 🔁 Now call another API to get user details
       const userRes = await axios.get("/Users/getUser", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
+      // const user = userRes.data.user; // adjust if structure is different
+      console.log("User:", userRes);
+  
+      // if (!user || !user.role) {
+      //   setError("User data not found");
+      //   return;
+      // }
+  
+      // localStorage.setItem("user", JSON.stringify(user));
+  
+      // if (user.role === "owner") {
+      //   navigate("/business/dashboard");
+      // } else {
+      //   navigate("/profile");
+      // }
+  
       if (onClose) onClose();
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid credentials");
@@ -114,6 +139,11 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
       setLoading(false);
     }
   };
+  
+  
+  
+  
+  
 
   return (
     <div className="w-full max-w-md mx-auto px-4">
