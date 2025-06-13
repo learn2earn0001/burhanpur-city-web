@@ -3,7 +3,12 @@ import { FaUser } from "react-icons/fa";
 import { Avatar, AvatarImage, AvatarFallback } from "../../../ui/avatar"; // Make sure this path is correct
 
 interface Props {
-  user: { name?: string; email?: string; phone?: string; avatarUrl?: string } | null;
+  user: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    avatarUrl?: string;
+  } | null;
   showDropdown: boolean;
   setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   onLogout: () => void;
@@ -23,7 +28,10 @@ const UserMenu: React.FC<Props> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -47,10 +55,10 @@ const UserMenu: React.FC<Props> = ({
         className="focus:outline-none"
       >
         <Avatar className="w-10 h-10 border-2 border-red-500 bg-indigo-100">
-         <AvatarImage
-  src="https://avatar.iran.liara.run/public/44"
-  alt={user.name || "User Avatar"}
-/>
+          <AvatarImage
+            src="https://avatar.iran.liara.run/public/44"
+            alt={user.name || "User Avatar"}
+          />
 
           <AvatarFallback className="text-indigo-600 font-bold text-lg">
             {user.name?.charAt(0).toUpperCase() || <FaUser />}

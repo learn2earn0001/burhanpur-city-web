@@ -34,13 +34,27 @@ const RegisterModal: React.FC<Props> = ({ onClose, setUser }) => {
   }, []);
 
   return (
+    
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
       aria-modal="true"
       role="dialog"
     >
-      <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl relative">
+      <div
+        className="relative w-full max-w-md mx-4 p-6 rounded-3xl
+          bg-[rgba(221,214,243,0.2)] backdrop-blur-xl
+          border border-purple-800 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]
+          transition-all duration-300"
+      >
         <RegisterPage onClose={handleClose} />
+        {/* Optional close button */}
+        {/* <button
+          onClick={handleClose}
+          className="absolute top-3 right-3 text-purple-800 hover:text-purple-600 text-xl font-bold transition-transform hover:scale-125"
+          aria-label="Close"
+        >
+          ✕
+        </button> */}
       </div>
     </div>
   );
