@@ -4,6 +4,7 @@ import ContactUs from '@/Pages/contactpart/Contact';
 import BusinessDashboard from '@/Pages/dashboard/dash_component/BusinessDashboard';
 import Dashboard from '@/Pages/dashboard/dash_component/Dashboard';
 import Profile from '@/Pages/dashboard/dash_component/ProfilePage';
+import RegisterBusinessForm from '@/Pages/dashboard/dash_component/RegisterBusinessForm';
 import Explore from '@/Pages/explorepart/Explore';
 import ExploreDesktop from '@/Pages/explorepart/explore_component/ExploreDesktop';
 // import ExploreBurhanpur from '@/Pages/explorepart/explore_component/ExploreDesktop';
@@ -52,7 +53,10 @@ const  MainRoutes: React.FC = () => {
         {/* <Route path="/newssection" element={<NewsSection />} /> */}
         <Route path="/profile" element={<Profile />} />
       <Route path="/business/dashboard" element={<BusinessDashboard/>} />
-      
+<Route path="/add-business" element={<RegisterBusinessForm />} />
+
+    
+
 
         <Route path="/registar" element={<RegisterPage />} />
         

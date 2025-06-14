@@ -212,7 +212,7 @@ function ArchitectureLanding(): JSX.Element {
                     <h1
                         className={`text-2xl md:text-5xl font-bold mb-2 max-w-2xl ${
                           showFlipText ? "animate-flipInX" : "opacity-0"
-                           } text-yellow-400`}
+                           } text-primary-dark`}
 >
                          Welcome to <br /> The Historical City of Heritage & Glory
                            </h1>

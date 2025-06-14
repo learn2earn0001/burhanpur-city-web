@@ -1,4 +1,5 @@
 // components/Typography.tsx
+
 import React, { ElementType, ReactNode } from 'react';
 import clsx from 'clsx';
 
