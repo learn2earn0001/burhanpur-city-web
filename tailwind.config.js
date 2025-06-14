@@ -34,11 +34,29 @@ export default {
         "slide-out-left": "slide-out-left 0.3s ease-in forwards",
         "auto-scroll": "auto-scroll 40s linear infinite",
       },
+
+      // ✅ Custom Colors
       colors: {
-        primary: "#B079C2",
-        secondary: "#FCB4D4",
-        ternary: "#E7A100",
+        primary: {
+          DEFAULT: "#fd3a55",
+          light: "#ff6f7d",
+          dark: "purple-500",
+        },
+        secondary: {
+          DEFAULT: "#FFC13D",
+          light: "#ffdc82",
+          dark: "#cc9a00",
+        },
       },
+
+      // ✅ Custom Background Gradients
+      backgroundImage: {
+        'gradient-main': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5)',           // purple-50 → white → purple-100
+        'gradient-cyan': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #67e8f9', // + cyan
+        'gradient-pink': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #fda4af', // + pink
+        'gradient-amber': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #fcd34d' // + amber
+      },
+
       fontFamily: {
         inter: ['"Plus Jakarta Sans"', "sans-serif"],
       },
@@ -48,12 +66,9 @@ export default {
     function ({ addUtilities }) {
       addUtilities({
         ".scrollbar-hide": {
-          /* Firefox */
-          "scrollbar-width": "none",
-          /* IE 10+ */
-          "-ms-overflow-style": "none",
-          /* Chrome, Safari and Opera */
-          "overflow": "auto",
+          "scrollbar-width": "none",         // Firefox
+          "-ms-overflow-style": "none",      // IE
+          "overflow": "auto",                // Ensure scrolling still works
         },
         ".scrollbar-hide::-webkit-scrollbar": {
           display: "none",
