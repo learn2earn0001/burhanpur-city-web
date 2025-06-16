@@ -190,9 +190,12 @@ const Signin: React.FC = () => {
           </p>
         </div>
 
+
+
         {/* Right Section */}
         <div className="w-full lg:w-1/2 p-6 md:p-10 flex flex-col justify-start min-h-[600px]">
           {/* Toggle Buttons */}
+          
           <div className="flex justify-center mb-6">
             <button
               onClick={() => setIsLogin(true)}
