@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-
 const Signin: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loginPhone, setLoginPhone] = useState("");
@@ -14,8 +13,6 @@ const Signin: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
-  
-
 
   const [fullName, setFullName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
@@ -174,10 +171,6 @@ const Signin: React.FC = () => {
     }
   };
 
-
-  
-
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-300 to-purple-500 p-4">
       <div className="w-full max-w-6xl bg-white rounded-2xl shadow-xl flex flex-col lg:flex-row overflow-hidden">
@@ -262,10 +255,12 @@ const Signin: React.FC = () => {
                   />
                   Remember Me
                 </label>
-                <Link to="/forgot-password" className="text-purple-500 hover:underline">
-  Forgot Password?
-</Link>
-
+                <Link
+                  to="/forgot-password"
+                  className="text-purple-500 hover:underline"
+                >
+                  Forgot Password?
+                </Link>
               </div>
 
               <button
@@ -289,10 +284,6 @@ const Signin: React.FC = () => {
                 </button>
               </p>
             </form>
-
-            
-
-            
           ) : (
             <form
               onSubmit={handleSignup}
@@ -369,8 +360,6 @@ const Signin: React.FC = () => {
                 </button>
               </p>
             </form>
-
-            
           )}
         </div>
       </div>

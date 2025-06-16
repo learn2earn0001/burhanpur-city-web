@@ -19,7 +19,7 @@ const ForgotPassword: React.FC = () => {
 
     try {
       await axios.put(
-        "https://burhanpur-city-backend-mfs4.onrender.com/api/Users/Updateuser",
+        "/Users/Updateuser",
         {
           phone: forgotPhone.trim(),
           password: newPassword,
