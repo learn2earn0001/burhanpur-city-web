@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.post('https://burhanpur-city-backend.vercel.app/api/Users/adminLogin', {
+      const res = await axios.post('https://burhanpur-city-backend.vercel.app/api/Users/login', {
         phone,
         password
       });
