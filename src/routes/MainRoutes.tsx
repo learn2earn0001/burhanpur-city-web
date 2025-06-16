@@ -14,6 +14,7 @@ import ExplorePhoneview from '@/Pages/explorepart/explore_component/ExplorePhone
 import Home from '@/Pages/home/Home';
  
 import LoginPage from '@/Pages/home/login/Login';
+import Signin from '@/Pages/Login/Signin';
 import Plans from '@/Pages/plans/Plans';
 import RegisterPage from '@/Pages/registration/Registration';
 import React from 'react';
@@ -27,12 +28,14 @@ import { Routes, Route} from 'react-router-dom';
 const  MainRoutes: React.FC = () => {
   return (
     <div>
+      
       <Routes>
         <Route path="/" element={<Home/>} />
         {/* <Route path="/home" element={<Home/>} /> */}
         {/* <Route path="/" element={<AuthPage/>} /> */}
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/Login" element={<LoginPage />} />
+        <Route path="/signin" element={<Signin />} />
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/contact" element={<ContactUs/>} />
         <Route path="/explore-more" element={<ExploreDesktop />} />
