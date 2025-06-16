@@ -89,20 +89,16 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
     setError("");
   
     const formattedPhone = loginPhone.replace(/\s+/g, "").trim();
-    console.log("Phone:", formattedPhone, "Password:", password);
   
     try {
-      const res = await axios.post("/Users/login", {
+      const res = await axios.post("/Users/adminLogin", {
         phone: formattedPhone,
         password,
       });
   
-      console.log("API Response:", res.data);
+      console.log("API Response:", res.data.result);
   
-      if (!res.data.success) {
-        setError(res.data.message || "Login failed");
-        return;
-      }
+       
   
       const token = res.data.result;
       if (!token) {
@@ -116,7 +112,6 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (onClose) onClose();
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid credentials");

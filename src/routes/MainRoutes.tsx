@@ -15,6 +15,7 @@ import ExplorePhoneview from '@/Pages/explorepart/explore_component/ExplorePhone
 import Home from '@/Pages/home/Home';
  
 import LoginPage from '@/Pages/home/login/Login';
+import ForgotPassword from '@/Pages/Login/ForgotPassword';
 import Signin from '@/Pages/Login/Signin';
 import Plans from '@/Pages/plans/Plans';
 import RegisterPage from '@/Pages/registration/Registration';
@@ -37,6 +38,7 @@ const  MainRoutes: React.FC = () => {
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/contact" element={<ContactUs/>} />
         <Route path="/explore-more" element={<ExploreDesktop />} />

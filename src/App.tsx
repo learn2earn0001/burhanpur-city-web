@@ -9,7 +9,7 @@ function App() {
    <>
     <BrowserRouter>
      <Toaster 
-        position="bottom-center"  // Moves the toast to the bottom (good for mobile)
+        position="top-center"  // Moves the toast to the bottom (good for mobile)
         richColors // Adds better color styles
         expand // Expands toast if needed
         closeButton // Allows users to close it
