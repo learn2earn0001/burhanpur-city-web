@@ -50,13 +50,13 @@ const Dashboard: React.FC = () => {
     { name: "Leads", icon: "📋", link: "leads" },
     { name: "Inbox", icon: "📨", badge: 4, link: "inbox" },
     { name: "Clients", icon: "👥", link: "clients" },
-    { name: "Settings", icon: "⚙", link: "settings" },
+    { name: "Settings", icon: "⚙️", link: "settings" },
     { name: "Add Business", icon: "➕", link: "addBusiness" }
   ];
 
   const taskStats = [
-    { name: "Prioritized Tasks", value: 83, color: "from-[#FCB4D4] to-[#6F2451]" },
-    { name: "Additional Tasks", value: 56, color: "from-[#6F2451] to-[#FCB4D4]" },
+    { name: "Prioritized Tasks", value: 83, color: "from-blue-200 to-blue-500" },
+{ name: "Additional Tasks", value: 56, color: "from-blue-500 to-blue-200" },
   ];
 
   const stats = [
@@ -97,7 +97,8 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#fff0f5] text-gray-800 font-sans scroll-smooth">
+    <div className="min-h-screen bg-white text-gray-800 font-sans scroll-smooth">
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -150,9 +151,10 @@ const Dashboard: React.FC = () => {
       {/* Body */}
       <div className="h-[calc(100vh-80px)] max-w-7xl mx-auto px-6 py-4 flex gap-6 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-56 flex-shrink-0 overflow-y-auto bg-white rounded-lg shadow p-4 max-h-full"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          <style>{`aside::-webkit-scrollbar { display: none; }`}</style>
+        {/* <aside className="w-56 flex-shrink-0 overflow-y-auto bg-white rounded-lg shadow p-4 max-h-full scrollbar-none">
+         */}
+         <aside className="w-56 flex-shrink-0 overflow-y-auto bg-[#e0f2ff] rounded-lg shadow p-4 max-h-full scrollbar-hidden">
+
           <div className="space-y-4">
             {sidebarItems.map((item, idx) => (
               <a
@@ -167,12 +169,15 @@ const Dashboard: React.FC = () => {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="flex items-center rounded-lg py-2 px-3 font-medium text-gray-700 hover:bg-indigo-50 transition"
+             className="flex items-center rounded-lg py-2 px-3 font-medium text-blue-700 hover:bg-blue-100 transition"
+
+
               >
                 <span className="text-xl mr-3">{item.icon}</span>
                 <span>{item.name}</span>
                 {item.badge && (
-                  <span className="ml-auto text-xs bg-indigo-100 text-blue-600 rounded-full px-2 py-0.5">
+                  <span className="ml-auto text-xs bg-blue-100 text-blue-700 rounded-full px-2 py-0.5">
+
                     {item.badge}
                   </span>
                 )}
@@ -193,10 +198,7 @@ const Dashboard: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto pr-2 space-y-8 pb-10"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          <style>{`main::-webkit-scrollbar { display: none; }`}</style>
-
+        <main className="flex-1 overflow-y-auto pr-2 space-y-8 pb-10 scrollbar-none">
           {/* Overview */}
           <div id="overview" className="scroll-mt-24">
             <h1 className="text-2xl font-bold mb-4">Overview</h1>
@@ -219,9 +221,9 @@ const Dashboard: React.FC = () => {
             <h1 className="text-2xl font-bold mb-4">Leads</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {stats.map((item, i) => (
-                <div key={i} className="bg-white rounded-xl shadow p-6 text-center">
-                  <div className="text-sm text-gray-500 mb-2">{item.label}</div>
-                  <div className="text-3xl font-bold text-gray-800">{item.value}</div>
+                <div key={i} className="bg-blue-200 rounded-xl shadow p-6 text-center">
+                  <div className="text-sm text-black mb-2">{item.label}</div>
+                  <div className="text-3xl font-bold text-black">{item.value}</div>
                 </div>
               ))}
             </div>
@@ -303,4 +305,5 @@ const Dashboard: React.FC = () => {
   );
 };
 
+export default Dashboard;
 export default Dashboard;

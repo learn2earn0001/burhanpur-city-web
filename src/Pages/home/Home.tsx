@@ -6,7 +6,7 @@ import ContactForm from "./home_components/ContactForm";
 import CategorySection from "../categorypart/CategorySection";
 
 import NavbarMain from "@/components/common/navbar/NavbarMain";
-import DashboardMain from "../dashboard/dashboardMain";
+// import DashboardMain from "../dashboard/dashboardMain";
 import Plans from "../plans/Plans";
 // import NavbarMain from "@/components/common/navbar/NavbarMain";
  
