@@ -1,243 +1,128 @@
+import React, { useRef, useEffect, useState } from "react";
+import comboImg1 from "../../../../public/assets/1st.jpg";
+import comboImg2 from "../../../../public/assets/2nd.jpeg";
+import comboImg3 from "../../../../public/assets/3rd.jpg";
+import comboImg4 from "../../../../public/assets/4th.jpeg";
+import comboImg5 from "../../../../public/assets/5th.jpeg";
+import comboImg1b from "../../../../public/assets/6th.jpg";
+import comboImg2b from "../../../../public/assets/7th.jpeg";
+import comboImg3b from "../../../../public/assets/8th.jpeg";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import axois from 'axios';
-import { useNavigate } from 'react-router-dom';
+const advertisements = [
+  { id: 1, title: "Combo Offer", subtitle: "IMAGE + VIDEO", price: "₹998 / 365 दिन", description: "फोटो स्टेट डिज़ाइन ₹789 + ₹998 में!", image: comboImg1 },
+  { id: 2, title: "Poster Design", subtitle: "LIMITED TIME", price: "₹499 Only", description: "Festival posters ₹499!", image: comboImg2 },
+  { id: 3, title: "Business Card", subtitle: "CUSTOM DESIGN", price: "₹199", description: "Premium visiting cards.", image: comboImg3 },
+  { id: 4, title: "Festival Package", subtitle: "FULL SET", price: "₹1499", description: "Banners & posts combo!", image: comboImg4 },
+  { id: 5, title: "SPG Membership", subtitle: "OFFER ACTIVE", price: "₹999 / Year", description: "Post ads on SPG easily!", image: comboImg5 },
+  { id: 6, title: "New Launch", subtitle: "HOT DEAL", price: "₹799", description: "Exclusive launch offer", image: comboImg1b },
+  { id: 7, title: "Season Offer", subtitle: "SPECIAL", price: "₹1299", description: "Seasonal discounts", image: comboImg2b },
+  { id: 8, title: "Mega Pack", subtitle: "LIMITED", price: "₹1899", description: "Mega combo pack", image: comboImg3b },
+];
 
-
-interface Category {
-  _id: string;
-  title?: string;
-  name?: string;
-  image: string;
-}
-
-const MAX_VISIBLE = 10;
-
-const CategorySection: React.FC = () => {
-  const [data, setData] = useState<Category[]>([]);
-  const [showMore, setShowMore] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
-
-  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+const Adds: React.FC = () => {
+  const desktopRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
+  const [mobileIndex, setMobileIndex] = useState(0);
 
   useEffect(() => {
-    axois
-      .get(`/category/getCategory?ts=${Date.now()}`)
-      .then((res) => {
-        setData(res?.data?.data || []);
-      })
-      .catch((err) => {
-        console.error('Error fetching categories:', err);
-      });
-  }, []);
+    const interval = setInterval(() => {
+      const dRef = desktopRef.current;
+      const mRef = mobileRef.current;
 
-  const startAutoScroll = () => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    if (scrollIntervalRef.current) clearInterval(scrollIntervalRef.current);
-
-    scrollIntervalRef.current = setInterval(() => {
-      if (
-        scrollContainer.scrollLeft + scrollContainer.clientWidth >=
-        scrollContainer.scrollWidth
-      ) {
-        scrollContainer.scrollLeft = 0;
-      } else {
-        scrollContainer.scrollLeft += 1;
+      // Desktop auto scroll
+      if (dRef && window.innerWidth >= 640) {
+        const amount = dRef.offsetWidth * 0.33;
+        dRef.scrollTo({
+          left: dRef.scrollLeft + amount >= dRef.scrollWidth ? 0 : dRef.scrollLeft + amount,
+          behavior: "smooth",
+        });
       }
-    }, 30);
-  };
 
-  const stopAutoScroll = () => {
-    if (scrollIntervalRef.current) {
-      clearInterval(scrollIntervalRef.current);
-      scrollIntervalRef.current = null;
-    }
-  };
+      // Mobile auto scroll with index-based logic
+      if (mRef && window.innerWidth < 640) {
+        const total = advertisements.length;
+        const nextIndex = (mobileIndex + 1) % total;
+        const cardWidth = mRef.offsetWidth * 0.95;
 
-  const pauseAndResumeScroll = () => {
-    stopAutoScroll();
-    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
-    resumeTimeoutRef.current = setTimeout(() => {
-      startAutoScroll();
-    }, 3000);
-  };
+        mRef.scrollTo({
+          left: cardWidth * nextIndex,
+          behavior: "smooth",
+        });
+        setMobileIndex(nextIndex);
+      }
+    }, 2500);
 
-  useEffect(() => {
-    if (!showMore) {
-      startAutoScroll();
-    } else {
-      stopAutoScroll();
-    }
-
-    return () => {
-      stopAutoScroll();
-    };
-  }, [showMore, data]);
-
-  const visibleCategories = data.slice(0, MAX_VISIBLE);
-  const hiddenCategories = data.slice(MAX_VISIBLE);
-
-
-  const filteredCategories = hiddenCategories.filter((category) =>
-    (category.title || category.name || '').toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-
-  const closeModal = () => {
-    setShowMore(false);
-    setSearchTerm('');
-    setTimeout(() => {
-      startAutoScroll();
-    }, 100);
-  };
-
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      closeModal();
-    }
-  };
+    return () => clearInterval(interval);
+  }, [mobileIndex]);
 
   return (
-
-
-    <>
-      {/* Embedded style for scrollbar hide */}
-      <style>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none; /* Chrome, Safari, Opera */
-        }
-      `}</style>
-
-      <div className="px-4 py-6 relative">
-        <h1 className="text-2xl font-bold mb-6 text-center">Explore Categories</h1>
-
-        <div className={showMore ? 'blur-sm pointer-events-none select-none' : ''}>
-          {!showMore && (
-            <div
-              ref={scrollRef}
-              className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide"
-              style={{
-                msOverflowStyle: 'none',
-                scrollbarWidth: 'none',
-              }}
-              onMouseEnter={pauseAndResumeScroll}
-              onMouseLeave={() => {
-                if (!showMore) startAutoScroll();
-              }}
-            >
-              {visibleCategories.map((category, index) => (
-                <motion.div
-                  key={category._id || index}
-                  className="flex-shrink-0 w-28 flex flex-col items-center justify-center text-center p-3 bg-white rounded-lg cursor-pointer select-none"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  onClick={() => {
-                    pauseAndResumeScroll();
-                    navigate(`/subcategory/${category._id}`);
-                  }}
-                >
-                  <img
-                    src={category.image}
-                    alt={category.title || 'category'}
-                    className="w-12 h-12 object-contain mb-2"
-                  />
-                  <p className="text-sm font-semibold text-gray-800">
-                    {category.title || category.name}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          )}
-
-          {hiddenCategories.length > 0 && !showMore && (
-            <div className="text-center mt-6">
-              <button
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium"
-                onClick={() => {
-                  stopAutoScroll();
-                  setShowMore(true);
-                }}
-              >
-                Show More
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Modal */}
-        {showMore && (
+    <div className="w-full bg-transparent">
+      {/* ✅ Desktop View */}
+      <div
+        className="hidden sm:flex mt-4 px-2"
+        ref={desktopRef}
+        style={{
+          overflowX: "auto",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+        {advertisements.map((ad) => (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            onClick={handleOverlayClick}
+            key={ad.id}
+            className="flex-shrink-0 snap-center w-[260px] h-[120px] bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-2xl shadow-lg p-3 relative flex items-center gap-4 mx-2"
           >
-            <motion.div
-              ref={modalRef}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-lg max-w-6xl w-full max-h-[80vh] overflow-auto p-6 relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-3xl font-bold"
-                aria-label="Close modal"
-              >
-                &times;
-              </button>
-
-              <input
-                type="text"
-                placeholder="Search categories..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border rounded mb-4"
-                autoFocus
-              />
-
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                {filteredCategories.length > 0 ? (
-                  filteredCategories.map((category, index) => (
-                    <div
-                      key={category._id || index}
-                      className="flex flex-col items-center justify-center text-center p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200"
-                      onClick={() => {
-                        navigate(`/subcategory/${category._id}`);
-                        closeModal();
-                      }}
-                    >
-                      <img
-                        src={category.image}
-                        alt={category.title || 'category'}
-                        className="w-12 h-12 object-contain mb-2"
-                      />
-                      <p className="text-xs font-semibold text-gray-800">
-                        {category.title || category.name}
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p className="col-span-full text-center text-gray-500">No categories found</p>
-                )}
+            <div className="w-[70px] h-[70px] rounded overflow-hidden">
+              <img src={ad.image} alt={ad.title} className="w-full h-full object-cover" />
+            </div>
+            <div className="flex flex-col justify-between h-full w-full pr-1">
+              <div className="text-sm font-bold uppercase bg-yellow-300 text-black px-2 py-0.5 rounded w-fit">
+                {ad.subtitle}
               </div>
-            </motion.div>
+              <h3 className="text-sm font-bold truncate">{ad.title}</h3>
+              <p className="text-xs truncate">{ad.description}</p>
+              <p className="text-sm font-semibold">{ad.price}</p>
+            </div>
           </div>
-        )}
+        ))}
       </div>
-    </>
 
+      {/* ✅ Mobile View */}
+      <div className="block sm:hidden mt-14 px-4">
+        <div
+          ref={mobileRef}
+          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar space-x-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {advertisements.map((ad) => (
+            <div
+              key={ad.id}
+              className="snap-center flex-shrink-0 w-[90vw] min-w-[90vw] h-[200px] bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-2xl shadow-lg p-4 relative flex items-center gap-4"
+            >
+              <div className="w-[60px] h-[60px] rounded overflow-hidden flex-shrink-0">
+                <img src={ad.image} alt={ad.title} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex flex-col justify-between h-full w-full pr-2">
+                <div className="text-[10px] font-bold uppercase bg-yellow-300 text-black px-2 py-0.5 rounded w-fit">
+                  {ad.subtitle}
+                </div>
+                <h3 className="text-sm font-bold truncate">{ad.title}</h3>
+                <p className="text-xs truncate">{ad.description}</p>
+                <p className="text-sm font-semibold">{ad.price}</p>
+              </div>
+              <div className="absolute bottom-2 right-2 text-[8px]">SPG ऐप पर</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default CategorySection;
+export default Adds;
