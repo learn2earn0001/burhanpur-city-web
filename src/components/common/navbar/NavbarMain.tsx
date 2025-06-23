@@ -6,8 +6,9 @@ import NavLinks from "./navComponent/NavLinks";
 import Sidebar from "./navComponent/Sidebar";
 import RegisterModal from "./navComponent/RegisterModel";
 import Logo from "./navComponent/Logo";
-import UserMenu from "./navComponent/UserMenu";
+// import UserMenu from "./navComponent/UserMenu";
 import { useNavigate } from "react-router-dom";
+import UserMenu from "./navComponent/UserMenu";
 
 interface User {
   name?: string;
@@ -59,11 +60,11 @@ const NavbarMain: React.FC = () => {
           >
             <UserMenu
               user={user}
-              // showDropdown={showProfileDropdown}
-              // setShowDropdown={setShowProfileDropdown}
+              showDropdown={showProfileDropdown}
+              setShowDropdown={setShowProfileDropdown}
               onLogout={handleLogout}
               scrolled={true}
-              // onOpenRegister={() => setShowRegisterModal(true)}
+              onOpenRegister={() => setShowRegisterModal(true)}
             />
 
             {/* Mobile menu icon */}

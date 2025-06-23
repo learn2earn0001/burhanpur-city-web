@@ -8,6 +8,8 @@ import CategorySection from "../categorypart/CategorySection";
 import NavbarMain from "@/components/common/navbar/NavbarMain";
 // import DashboardMain from "../dashboard/dashboardMain";
 import Plans from "../plans/Plans";
+import ProductsSection from "../Products/ProductSection";
+
 // import NavbarMain from "@/components/common/navbar/NavbarMain";
  
 
@@ -17,12 +19,13 @@ const Home: React.FC = () => {
 
     <div className="pt-2 h-0"> {/* ✅ Add padding-top to prevent overlap */}
       <NavbarMain />
-
+  
       {/* <ArchitectureLanding />
        */}
 <ArchitectureLanding />
 {/* <Dashboard/> */}
       <CategorySection />
+      <ProductsSection />
       <HistoricalTimeline />
   
       <TopAttractions />

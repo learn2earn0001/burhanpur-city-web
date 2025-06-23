@@ -1,11 +1,7 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-// import axois from 'axios';
 import { useNavigate } from 'react-router-dom';
 import axios from '@/axois';
-// import axios from 'axios';
-
 
 interface Category {
   _id: string;
@@ -28,35 +24,13 @@ const CategorySection: React.FC = () => {
   const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // create a cancel token so we can abort the request on unmount
-    // const source = axios.CancelToken.source();
-
-    axios
-      .get(
-        "/category/getCategory",
-        // { cancelToken: source.token }
-      )
+    axios.get("/category/getCategory")
       .then((res) => {
-        console.log("Fetched:", res.data?.data);
-        if (Array.isArray(res.data?.data)) {
-          setData(res.data.data);
-        } else if (Array.isArray(res.data)) {
-          setData(res.data);
-        } else {
-          console.error("Unexpected API format");
-        }
+        const categoryData = Array.isArray(res.data?.data) ? res.data.data : res.data;
+        if (Array.isArray(categoryData)) setData(categoryData);
       })
-      .catch((err) => {
-        if ((err)) return; // request was cancelled
-        console.error("API Error:", err);
-      });
-
-    // clean-up: cancel request if component unmounts
-    // return () => source.cancel();
+      .catch((err) => console.error("API Error:", err));
   }, []);
-  
-  
-  
 
   const startAutoScroll = () => {
     const scrollContainer = scrollRef.current;
@@ -92,89 +66,70 @@ const CategorySection: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!showMore) {
-      startAutoScroll();
-    } else {
-      stopAutoScroll();
-    }
-
-    return () => {
-      stopAutoScroll();
-    };
+    if (!showMore) startAutoScroll();
+    return () => stopAutoScroll();
   }, [showMore, data]);
 
   const visibleCategories = data.slice(0, MAX_VISIBLE);
   const hiddenCategories = data.slice(MAX_VISIBLE);
-
-
   const filteredCategories = hiddenCategories.filter((category) =>
     (category.title || category.name || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
   const closeModal = () => {
     setShowMore(false);
     setSearchTerm('');
-    setTimeout(() => {
-      startAutoScroll();
-    }, 100);
+    setTimeout(() => startAutoScroll(), 100);
   };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-      closeModal();
-    }
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) closeModal();
   };
 
   return (
-
-
     <>
-      {/* Embedded style for scrollbar hide */}
       <style>{`
         .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
         .scrollbar-hide::-webkit-scrollbar {
-          display: none; /* Chrome, Safari, Opera */
+          display: none;
         }
       `}</style>
 
-      <div className="px-4 py-6 relative">
-        <h1 className="text-2xl font-bold mb-6 text-center">Explore Categories</h1>
+      <div className="px-4 py-10 relative bg-gradient-to-br from-white to-orange-50 overflow-x-hidden">
+       <h1 className="text-3xl font-extrabold mb-8 text-center text-black">
+  ✨ Explore Categories ✨
+</h1>
 
         <div className={showMore ? 'blur-sm pointer-events-none select-none' : ''}>
           {!showMore && (
             <div
               ref={scrollRef}
-              className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide"
-              style={{
-                msOverflowStyle: 'none',
-                scrollbarWidth: 'none',
-              }}
+              className="grid grid-flow-col auto-cols-[140px] gap-6 overflow-x-auto pb-2 scrollbar-hide px-1"
               onMouseEnter={pauseAndResumeScroll}
-              onMouseLeave={() => {
-                if (!showMore) startAutoScroll();
-              }}
+              onMouseLeave={() => !showMore && startAutoScroll()}
             >
               {visibleCategories.map((category, index) => (
                 <motion.div
                   key={category._id || index}
-                  className="flex-shrink-0 w-28 flex flex-col items-center justify-center text-center p-3 bg-white rounded-lg cursor-pointer select-none"
-                  whileHover={{ scale: 1.05 }}
+                  className="flex flex-col items-center justify-center text-center transition-transform hover:scale-105 cursor-pointer duration-300"
+                  whileHover={{ scale: 1.07 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   onClick={() => {
                     pauseAndResumeScroll();
                     navigate(`/subcategory/${category._id}`);
                   }}
                 >
-                  <img
-                    src={category.image}
-                    alt={category.title || 'category'}
-                    className="w-12 h-12 object-contain mb-2"
-                  />
-                  <p className="text-sm font-semibold text-gray-800">
+                  <div className="w-20 h-20 rounded-full bg-white border-2 border-gray-200 shadow-md flex items-center justify-center overflow-hidden mb-2">
+                    <img
+                      src={category.image}
+                      alt={category.title || 'category'}
+                      className="w-12 h-12 object-contain"
+                    />
+                  </div>
+                  <p className="text-sm font-semibold text-gray-700">
                     {category.title || category.name}
                   </p>
                 </motion.div>
@@ -183,24 +138,23 @@ const CategorySection: React.FC = () => {
           )}
 
           {hiddenCategories.length > 0 && !showMore && (
-            <div className="text-center mt-6">
+            <div className="text-center mt-8">
               <button
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium"
+                className="px-6 py-2.5 bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-400 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition"
                 onClick={() => {
                   stopAutoScroll();
                   setShowMore(true);
                 }}
               >
-                Show More
+                🔎 Show More
               </button>
             </div>
           )}
         </div>
 
-        {/* Modal */}
         {showMore && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 overflow-hidden"
             onClick={handleOverlayClick}
           >
             <motion.div
@@ -208,43 +162,46 @@ const CategorySection: React.FC = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-lg max-w-6xl w-full max-h-[80vh] overflow-auto p-6 relative"
+              className="bg-white rounded-2xl max-w-4xl w-[90%] max-h-[80vh] overflow-y-auto p-4 relative shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-3xl font-bold"
-                aria-label="Close modal"
-              >
-                &times;
-              </button>
+              <div className="flex justify-between items-center mb-4">
+                <input
+                  type="text"
+                  placeholder="Search categories..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-3/4 px-3 py-2 border border-pink-400 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 text-sm"
+                  autoFocus
+                />
+                <button
+                  onClick={closeModal}
+                  className="text-gray-600 hover:text-red-500 text-3xl font-bold bg-white rounded-full shadow-md w-9 h-9 flex items-center justify-center ml-4"
+                  aria-label="Close modal"
+                >
+                  &times;
+                </button>
+              </div>
 
-              <input
-                type="text"
-                placeholder="Search categories..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border rounded mb-4"
-                autoFocus
-              />
-
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {filteredCategories.length > 0 ? (
                   filteredCategories.map((category, index) => (
                     <div
                       key={category._id || index}
-                      className="flex flex-col items-center justify-center text-center p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200"
+                      className="flex flex-col items-center justify-center text-center p-2 cursor-pointer hover:bg-gray-100 transition-all rounded-lg"
                       onClick={() => {
                         navigate(`/subcategory/${category._id}`);
                         closeModal();
                       }}
                     >
-                      <img
-                        src={category.image}
-                        alt={category.title || 'category'}
-                        className="w-12 h-12 object-contain mb-2"
-                      />
-                      <p className="text-xs font-semibold text-gray-800">
+                      <div className="w-14 h-14 rounded-full bg-gray-100 shadow flex items-center justify-center overflow-hidden mb-2">
+                        <img
+                          src={category.image}
+                          alt={category.title || 'category'}
+                          className="w-10 h-10 object-contain"
+                        />
+                      </div>
+                      <p className="text-sm font-semibold text-gray-800">
                         {category.title || category.name}
                       </p>
                     </div>
@@ -258,7 +215,6 @@ const CategorySection: React.FC = () => {
         )}
       </div>
     </>
-
   );
 };
 
