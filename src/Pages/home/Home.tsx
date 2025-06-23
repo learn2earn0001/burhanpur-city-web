@@ -27,6 +27,7 @@ const Home: React.FC = () => {
       <CategorySection />
       <ProductsSection />
       <HistoricalTimeline />
+  
       <TopAttractions />
       <Plans/>
       <ContactForm />

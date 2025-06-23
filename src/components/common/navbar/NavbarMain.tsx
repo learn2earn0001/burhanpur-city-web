@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import NavLinks from "./navComponent/NavLinks";
+
 import Sidebar from "./navComponent/Sidebar";
 import RegisterModal from "./navComponent/RegisterModel";
 import Logo from "./navComponent/Logo";
+// import UserMenu from "./navComponent/UserMenu";
+import { useNavigate } from "react-router-dom";
 import UserMenu from "./navComponent/UserMenu";
 
 interface User {
@@ -19,14 +22,15 @@ const NavbarMain: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-
+  // const [setShowDropdown,setShowDropdown]=useState
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
           const res = await axios.get("/Users/userDetails", {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${token} ` },
           });
           if (res.data.success) setUser(res.data.user);
         } catch {
@@ -45,12 +49,15 @@ const NavbarMain: React.FC = () => {
 
   return (
     <>
-      {/* Fixed Navbar */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md h-16">
+      {/* Fixed, always visible Navbar */}
+      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           <Logo scrolled={true} />
           <NavLinks scrolled={true} />
-          <div className="flex items-center gap-4">
+          <div
+            className="flex items-center gap-4"
+            onClick={() => navigate("/signin")}
+          >
             <UserMenu
               user={user}
               showDropdown={showProfileDropdown}
@@ -59,6 +66,8 @@ const NavbarMain: React.FC = () => {
               scrolled={true}
               onOpenRegister={() => setShowRegisterModal(true)}
             />
+
+            {/* Mobile menu icon */}
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
@@ -75,8 +84,8 @@ const NavbarMain: React.FC = () => {
         </div>
       </header>
 
-      {/* Push Content below navbar */}
-      {/* <div className="mt-[64px]" /> */}
+      {/* Push content below fixed navbar with smaller gap */}
+      <div className="h-20" />
 
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
