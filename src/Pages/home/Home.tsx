@@ -24,6 +24,7 @@ const Home: React.FC = () => {
 {/* <Dashboard/> */}
       <CategorySection />
       <HistoricalTimeline />
+  
       <TopAttractions />
       <Plans/>
       <ContactForm />
