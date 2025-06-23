@@ -1,7 +1,15 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { FiLock, FiEye, FiEyeOff, FiUser, FiMail, FiPhone, FiX } from "react-icons/fi";
+import {
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiX,
+} from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import axios from "@/axois";
 
 interface RegistrationProps {
@@ -87,26 +95,24 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const handleLogin = async () => {
     setLoading(true);
     setError("");
-  
+
     const formattedPhone = loginPhone.replace(/\s+/g, "").trim();
-  
+
     try {
       const res = await axios.post("/Users/adminLogin", {
         phone: formattedPhone,
         password,
       });
-  
+
       console.log("API Response:", res.data.result);
-  
-       
-  
+
       const token = res.data.result;
       if (!token) {
         setError("Token not found.");
         return;
       }
       localStorage.setItem("authToken", token);
-  
+
       const userRes = await axios.get("/Users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -151,24 +157,23 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
           </button>
         </div> */}
         <div className="flex bg-gray-200 rounded-xl p-1 mb-6">
-  <button
-    className={`w-1/2 py-2 text-sm font-semibold rounded-xl transition-all duration-300 ${
-      !isLogin ? "bg-purple-600 text-white shadow-md" : "text-gray-600"
-    }`}
-    onClick={() => setIsLogin(false)}
-  >
-    Register
-  </button>
-  <button
-    className={`w-1/2 py-2 text-sm font-semibold rounded-xl transition-all duration-300 ${
-      isLogin ? "bg-purple-600 text-white shadow-md" : "text-gray-600"
-    }`}
-    onClick={() => setIsLogin(true)}
-  >
-    Login
-  </button>
-</div>
-
+          <button
+            className={`w-1/2 py-2 text-sm font-semibold rounded-xl transition-all duration-300 ${
+              !isLogin ? "bg-purple-600 text-white shadow-md" : "text-gray-600"
+            }`}
+            onClick={() => setIsLogin(false)}
+          >
+            Register
+          </button>
+          <button
+            className={`w-1/2 py-2 text-sm font-semibold rounded-xl transition-all duration-300 ${
+              isLogin ? "bg-purple-600 text-white shadow-md" : "text-gray-600"
+            }`}
+            onClick={() => setIsLogin(true)}
+          >
+            Login
+          </button>
+        </div>
 
         {/* Heading */}
         <h2 className="text-2xl font-bold text-center text-purple-700 mb-4">
@@ -176,7 +181,9 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
         </h2>
 
         {/* Error Message */}
-        {error && <p className="text-red-500 text-center text-sm mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-center text-sm mb-4">{error}</p>
+        )}
 
         {/* Login Form */}
         {isLogin ? (

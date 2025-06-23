@@ -1,14 +1,14 @@
-import Dashboard from "./dash_component/Dashboard";
-import RegisterBusinessForm from "./dash_component/RegisterBusinessForm";
-import StatCard from "./dash_component/StatCard";
-import TargetCard from "./dash_component/TargetCard";
+// import Dashboard from "./dash_component/Dashboard";
+// import DashboardLayout from "./dash_component/DashboardLayout";
+import DashRoute from "./dash_component/DashRoute";
+// import RegisterBusinessForm from "./dash_component/RegisterBusinessForm";
+
 
 const DashboardMain: React.FC = () => {
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
+    <div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           title="Customers"
           value={3782}
@@ -26,12 +26,15 @@ const DashboardMain: React.FC = () => {
           amount={3287}
           target={20}
         />
-      </div>
+      </div> */}
 
       {/* If you still need Dashboard below */}
       <div className="mt-10">
-        <Dashboard />
-        <RegisterBusinessForm />
+        {/* <Dashboard /> */}
+        {/* <Dashboard/> */}
+    {/* <Layout/> */}
+    <DashRoute/>
+        {/* <RegisterBusinessForm /> */}
         
       </div>
     </div>
