@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import comboImg1 from "../../../../public/assets/1st.jpg";
 import comboImg2 from "../../../../public/assets/2nd.jpeg";
 import comboImg3 from "../../../../public/assets/3rd.jpg";
@@ -22,14 +22,14 @@ const advertisements = [
 const Adds: React.FC = () => {
   const desktopRef = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
-  const [mobileIndex, setMobileIndex] = useState(0);
+  const mobileIndexRef = useRef<number>(0); // 🔁 Track current index
 
   useEffect(() => {
     const interval = setInterval(() => {
       const dRef = desktopRef.current;
       const mRef = mobileRef.current;
 
-      // Desktop auto scroll
+      // 🖥️ Desktop auto scroll
       if (dRef && window.innerWidth >= 640) {
         const amount = dRef.offsetWidth * 0.33;
         dRef.scrollTo({
@@ -38,22 +38,21 @@ const Adds: React.FC = () => {
         });
       }
 
-      // Mobile auto scroll with index-based logic
+      // 📱 Mobile auto scroll with remembered index
       if (mRef && window.innerWidth < 640) {
         const total = advertisements.length;
-        const nextIndex = (mobileIndex + 1) % total;
+        mobileIndexRef.current = (mobileIndexRef.current + 1) % total;
         const cardWidth = mRef.offsetWidth * 0.95;
 
         mRef.scrollTo({
-          left: cardWidth * nextIndex,
+          left: cardWidth * mobileIndexRef.current,
           behavior: "smooth",
         });
-        setMobileIndex(nextIndex);
       }
     }, 2500);
 
     return () => clearInterval(interval);
-  }, [mobileIndex]);
+  }, []);
 
   return (
     <div className="w-full bg-transparent">
