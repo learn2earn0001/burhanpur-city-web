@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from "sonner";
 import MainRoutes from './routes/MainRoutes';
+import PopAd from "./Pages/Adds/adds/PopAd";
 
 function App() {
 
@@ -20,6 +21,9 @@ function App() {
         className="max-w-[98%]"
       />
       <MainRoutes />
+      <div className="min-h-screen">
+        <PopAd/>
+      </div>
     </BrowserRouter>
   );
 }
