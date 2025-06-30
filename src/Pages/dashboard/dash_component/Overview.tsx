@@ -1,7 +1,7 @@
 const Overview = () => {
   const taskStats = [
-    { name: "Prioritized Tasks", value: 83, color: "from-blue-200 to-blue-500" },
-    { name: "Additional Tasks", value: 56, color: "from-blue-500 to-blue-200" },
+    { name: "Prioritized Tasks", value: 83, color: "from-purple-500 to-white-400" },
+    { name: "Additional Tasks", value: 56, color: "from-purple-500 to-white-400" },
   ];
 
   return (

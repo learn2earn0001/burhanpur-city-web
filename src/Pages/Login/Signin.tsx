@@ -38,7 +38,7 @@ const Signin: React.FC = () => {
   }, []);
 
   // -----------------login function-------------------
-const handleLogin = async (e: React.FormEvent) => {
+ const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
   setLoading(true);
   setError("");
@@ -69,27 +69,22 @@ const handleLogin = async (e: React.FormEvent) => {
     );
 
     console.log("Login API Response:", res.data);
-    const token = res.data.result?.token;
 
-    // Step 3: Decode JWT to extract user ID
-    const payloadBase64 = token?.split(".")[1];
-    const decodedPayload = payloadBase64 ? JSON.parse(atob(payloadBase64)) : null;
-    const userId = decodedPayload?.id;
+    // ✅ Correctly extract token and user
+    const { token, user } = res.data.result;
 
-    console.log("Decoded User ID:", userId);
-
-    if (!token || !userId) {
-      setError("Login failed. Missing token or user ID.");
+    if (!token || !user?._id) {
+      setError("Login failed. Missing token or user info.");
       toast.error("Login failed. Please try again.");
       return;
     }
 
-    // Step 4: Save to localStorage
+    // Step 3: Save to localStorage
     localStorage.setItem("authToken", token);
-    localStorage.setItem("userId", userId);
-    localStorage.setItem("user", JSON.stringify(decodedPayload)); // Optional
+    localStorage.setItem("userId", user._id);
+localStorage.setItem("userData", JSON.stringify(user)); // ✅ Correct key for DashboardLayout
 
-    // Step 5: Remember Me
+    // Step 4: Remember Me
     if (rememberMe) {
       localStorage.setItem("savedPhone", loginPhone);
       localStorage.setItem("savedPassword", password);
@@ -100,7 +95,7 @@ const handleLogin = async (e: React.FormEvent) => {
       localStorage.setItem("rememberMe", "false");
     }
 
-    // Step 6: Redirect
+    // Step 5: Redirect
     toast.success("Login Successful 🎉");
     navigate("/");
   } catch (err: any) {
@@ -111,7 +106,6 @@ const handleLogin = async (e: React.FormEvent) => {
     setLoading(false);
   }
 };
-
 
   // ---------------signup function-----------------
   const handleSignup = async (e: React.FormEvent) => {

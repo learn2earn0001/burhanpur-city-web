@@ -1,14 +1,26 @@
-const Header = ({
+import React from "react";
+
+interface HeaderProps {
+  profileImage: string;
+  toggleSidebar: () => void;
+  handleImageClick: () => void;
+  fileInputRef: React.RefObject<HTMLInputElement>;
+  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  userName?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({
   profileImage,
   toggleSidebar,
   handleImageClick,
   fileInputRef,
   handleImageChange,
-}: any) => {
+  userName,
+}) => {
   const primaryColor = "#6D3871";
 
   return (
-    <header className="sticky bg-gradient-to-r from-purple-400 to-purple-800 border-b border-gray-200 shadow-sm w-full m-0">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-purple-400 to-purple-800 border-b border-gray-200 shadow-sm w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
         {/* Left: Hamburger + Logo */}
         <div className="flex items-center gap-1 sm:gap-5">
@@ -46,8 +58,10 @@ const Header = ({
             className="hidden"
           />
           <div className="hidden sm:flex flex-col items-end leading-tight">
-            <span className="text-sm font-semibold text-white">Lora Piterson</span>
-            <span className="text-xs text-white">UX/UI Designer</span>
+            <span className="text-sm font-semibold text-white">
+  {userName || ""}
+</span>
+
           </div>
           <img
             src={profileImage}

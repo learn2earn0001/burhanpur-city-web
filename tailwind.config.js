@@ -39,6 +39,7 @@ export default {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-100%)" },
         },
+        
       },
 
       animation: {
@@ -46,9 +47,28 @@ export default {
         "gradient-flow": "gradientFlow 10s ease infinite",
         "slide-in-left": "slide-in-left 0.3s ease-out forwards",
         "slide-out-left": "slide-out-left 0.3s ease-in forwards",
-        "auto-scroll": "auto-scroll 40s linear infinite",
+    "scroll-horizontal": "scroll-horizontal 40s linear infinite", // ✅ renamed and correct speed
       },
 
+      // ✅ Custom Colors
+      colors: {
+        primary: {
+          DEFAULT: "#fd3a55",
+          light: "#ff6f7d",
+          dark: "purple-500",
+        },
+        secondary: {
+          DEFAULT: "#FFC13D",
+          light: "#ffdc82",
+          dark: "#cc9a00",
+        },
+      },
+
+      
+
+      
+
+      // ✅ Custom Background Gradients
       backgroundImage: {
         'gradient-main': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5)',
         'gradient-cyan': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #67e8f9',
