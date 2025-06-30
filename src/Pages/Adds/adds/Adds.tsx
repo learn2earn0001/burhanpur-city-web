@@ -72,7 +72,7 @@ const Adds: React.FC = () => {
         {advertisements.map((ad) => (
           <div
             key={ad.id}
-            className="flex-shrink-0 snap-center w-[260px] h-[120px] bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-2xl shadow-lg p-3 relative flex items-center gap-4 mx-2"
+            className="flex-shrink-0 snap-center w-[260px] h-[120px] bg-gradient-to-r from-pink-600 to-purple-500 text-white rounded-2xl shadow-lg p-3 relative flex items-center gap-4 mx-2"
           >
             <div className="w-[70px] h-[70px] rounded overflow-hidden">
               <img src={ad.image} alt={ad.title} className="w-full h-full object-cover" />

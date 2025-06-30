@@ -8,7 +8,6 @@ const items = [
   { name: "Inbox", icon: "📨", badge: 4, link: "inbox" },
   { name: "Clients", icon: "👥", link: "clients" },
   { name: "Settings", icon: "⚙️", link: "settings" },
-  { name: "Add Business", icon: "➕", link: "add-business" },
   { name: "Business", icon: "📊", link: "business" },
 ];
 

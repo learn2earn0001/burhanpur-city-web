@@ -259,33 +259,89 @@ const RegisterBusinessForm: React.FC<Props> = ({ onAddBusiness }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setResponseMsg("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setResponseMsg("");
+  try {
+    const token = localStorage.getItem("authToken");
 
-    try {
-      const ownerId = localStorage.getItem("userId");
-      if (!ownerId) {
-        setResponseMsg("❌ Owner ID not found. Please log in again.");
-        setLoading(false);
-        return;
+    if (!token) {
+      setResponseMsg("❌ Token not found. Please login again.");
+      setLoading(false);
+      return;
+    }
+
+    // Step 1: Get owner ID from userDetails
+    const userRes = await axios.get(
+      "https://burhanpur-city-backend-mfs4.onrender.com/api/Users/userDetails",
+      {
+        headers: { Authorization: `Bearer ${token}` },
       }
+    );
 
-      const dataToSend = { ...formData, owner: ownerId };
+    const ownerData = userRes.data?.result;
 
-      await axios.post(
-        "https://burhanpur-city-backend-mfs4.onrender.com/api/bussiness/registerBuss",
-        dataToSend
-      );
+    if (!Array.isArray(ownerData) || ownerData.length === 0) {
+      setResponseMsg("❌ No valid user found.");
+      setLoading(false);
+      return;
+    }
 
+    const ownerId = ownerData[0]?._id;
+
+    if (!ownerId) {
+      setResponseMsg("❌ Failed to extract owner ID.");
+      setLoading(false);
+      return;
+    }
+
+    // Step 2: Structure data correctly for API
+    const dataToSend = {
+      name: formData.name,
+      category: formData.category, // Should be ObjectId of category
+      description: formData.description,
+      owner: ownerId,
+      address: {
+        street: formData.street,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode,
+      },
+      contact: {
+        phone: formData.phone,
+        email: formData.email,
+      },
+      social: {
+        facebook: formData.facebook,
+        instagram: formData.instagram,
+      },
+    };
+
+    console.log("📤 Sending:", dataToSend);
+
+    // Step 3: Send to API
+    const registerRes = await axios.post(
+      "https://burhanpur-city-backend-mfs4.onrender.com/api/bussiness/registerBuss",
+      dataToSend,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    const createdBusiness = registerRes.data?.result;
+
+    if (createdBusiness) {
       setResponseMsg("✅ Business registered successfully!");
+      console.log("🟢 Created Business:", createdBusiness);
 
+      // Push to parent list
       if (onAddBusiness) {
-        onAddBusiness(dataToSend);
+        onAddBusiness(createdBusiness); // use API returned business
       }
 
+      // Reset form
       setFormData({
         name: "",
         category: "",
@@ -300,17 +356,20 @@ const RegisterBusinessForm: React.FC<Props> = ({ onAddBusiness }) => {
         instagram: "",
         owner: "",
       });
-    } catch (error: any) {
-      setResponseMsg(
-        error.response?.data?.message || "❌ Something went wrong!"
-      );
-    } finally {
-      setLoading(false);
+    } else {
+      setResponseMsg("❌ API did not return created business.");
     }
-  };
+  } catch (error: any) {
+    console.error("⛔ Registration Error:", error.response?.data || error.message);
+    setResponseMsg(error.response?.data?.message || "❌ Something went wrong!");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
-    <div className="max-w-4xl mx-auto mt-12 p-8 bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-xl border border-gray-200">
+    <div className="max-w-4xl mx-auto mt-12 p-8 bg-gradient-to-br from-white to-purple-400 rounded-3xl shadow-xl border border-gray-200">
       <h2 className="text-3xl font-bold mb-8 text-center text-blue-800">
         Register Your Business
       </h2>
@@ -347,7 +406,7 @@ const RegisterBusinessForm: React.FC<Props> = ({ onAddBusiness }) => {
           >
             <option value="">Select Category</option>
             {categories.map((cat: any, idx: number) => (
-              <option key={idx} value={cat.name}>
+              <option key={idx} value={cat._id}>
                 {cat.name}
               </option>
             ))}
@@ -398,7 +457,7 @@ const RegisterBusinessForm: React.FC<Props> = ({ onAddBusiness }) => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition duration-300 shadow-md"
+            className="bg-purple-500 hover:bg-purple-300 text-black font-semibold py-3 px-8 rounded-xl transition duration-300 shadow-md"
           >
             {loading ? "Registering..." : "Register Business"}
           </button>

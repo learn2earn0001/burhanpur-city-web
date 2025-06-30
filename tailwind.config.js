@@ -26,13 +26,14 @@ export default {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-100%)" },
         },
+        
       },
       animation: {
         shine: "shine 3s ease-out infinite",
         "gradient-flow": "gradientFlow 10s ease infinite",
         "slide-in-left": "slide-in-left 0.3s ease-out forwards",
         "slide-out-left": "slide-out-left 0.3s ease-in forwards",
-        "auto-scroll": "auto-scroll 40s linear infinite",
+    "scroll-horizontal": "scroll-horizontal 40s linear infinite", // ✅ renamed and correct speed
       },
 
       // ✅ Custom Colors
@@ -48,6 +49,10 @@ export default {
           dark: "#cc9a00",
         },
       },
+
+      
+
+      
 
       // ✅ Custom Background Gradients
       backgroundImage: {
