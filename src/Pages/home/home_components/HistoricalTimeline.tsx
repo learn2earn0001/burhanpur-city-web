@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import AddCrasoule from "@/Pages/Adds/adds/AddCrasoule";
 // import Adds from "@/Pages/Adds/adds/Adds";
 
 interface Event {
@@ -20,9 +19,9 @@ const HistoricalTimeline: React.FC = () => {
     
     <section className="container mx-auto px-4 py-10">
        {/* Ad Section */}
-        <div className="pt-4 bg-transparent w-full">
+        {/* <div className="pt-4 bg-transparent w-full">
           <AddCrasoule/>
-        </div>
+        </div> */}
       {/* 👇 Animated Heading Only */}
       <motion.h2
         className="text-4xl font-bold text-center mb-10 mt-10 text-gray-800"
