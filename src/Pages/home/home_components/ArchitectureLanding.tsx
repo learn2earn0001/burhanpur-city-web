@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef, FormEvent, JSX } from "react";
 import { FaSearch } from "react-icons/fa";
 import gurudwara from "../../../../public/assets/gurudwara.jpg";
@@ -74,7 +75,10 @@ function ArchitectureLanding(): JSX.Element {
         }
       `}</style>
 
-      <div className="relative w-full h-screen overflow-hidden pt-0">
+      <div style={{
+        // border:'1px solid red',
+        top:'-79.90px'
+      }} className="relative w-full overflow-hidden pt-0">
         {/* Background */}
         <div className="absolute inset-0 -z-10">
           {images.map((img, i) => (

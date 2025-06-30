@@ -3,6 +3,19 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          DEFAULT: "#a855f7",     // Lavender Purple
+          light: "#d8b4fe",
+          dark: "#7e22ce",
+        },
+        secondary: {
+          DEFAULT: "#fbbf24",     // Sunny Yellow
+          light: "#fde68a",
+          dark: "#b45309",
+        },
+      },
+
       keyframes: {
         shine: {
           "0%": { backgroundPosition: "200% 0" },
@@ -28,6 +41,7 @@ export default {
         },
         
       },
+
       animation: {
         shine: "shine 3s ease-out infinite",
         "gradient-flow": "gradientFlow 10s ease infinite",
@@ -56,10 +70,10 @@ export default {
 
       // ✅ Custom Background Gradients
       backgroundImage: {
-        'gradient-main': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5)',           // purple-50 → white → purple-100
-        'gradient-cyan': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #67e8f9', // + cyan
-        'gradient-pink': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #fda4af', // + pink
-        'gradient-amber': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #fcd34d' // + amber
+        'gradient-main': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5)',
+        'gradient-cyan': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #67e8f9',
+        'gradient-pink': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #fda4af',
+        'gradient-amber': 'linear-gradient(to right, #f3e8ff, #ffffff, #f5e0f5), #fcd34d'
       },
 
       fontFamily: {
@@ -71,9 +85,9 @@ export default {
     function ({ addUtilities }) {
       addUtilities({
         ".scrollbar-hide": {
-          "scrollbar-width": "none",         // Firefox
-          "-ms-overflow-style": "none",      // IE
-          "overflow": "auto",                // Ensure scrolling still works
+          "scrollbar-width": "none",
+          "-ms-overflow-style": "none",
+          "overflow": "auto",
         },
         ".scrollbar-hide::-webkit-scrollbar": {
           display: "none",

@@ -7,7 +7,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Card, CardContent } from "@/components/ui/card"; // Adjust if your path differs
+import { Card, CardContent } from "@/components/ui/card";
 
 import tajmahal from "../../../../public/assets/tajmahal.jpg";
 import asirgarh from "../../../../public/assets/asirgarh.jpg";
@@ -66,40 +66,52 @@ const attractions: Attraction[] = [
 
 const TopAttractions: React.FC = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-yellow-100 via-amber-50 to-white text-gray-900">
-      <div className="max-w-5xl mx-auto text-center px-4">
-        <h2 className="text-4xl font-bold font-serif text-amber-800 mb-12">
-          Top Attractions
-        </h2>
+    <section className="w-full py-16 bg-gradient-to-b from-yellow-100 via-amber-50 to-white text-gray-900">
+      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold font-serif text-amber-800">
+            Top Attractions
+          </h2>
+        </div>
 
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          autoplay={{ delay: 2000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          spaceBetween={20}
-          slidesPerView={1}
-          breakpoints={{
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-        >
-          {attractions.map((place, index) => (
-            <SwiperSlide key={index}>
-              <Card className="overflow-hidden shadow-lg rounded-2xl">
-                <img
-                  src={typeof place.img === "string" ? place.img : (place.img as any).src}
-                  alt={place.alt}
-                  className="w-full h-48 object-cover"
-                />
-                <CardContent className="p-4 text-left">
-                  <h3 className="text-xl font-semibold text-amber-800">{place.title}</h3>
-                  <p className="text-sm text-gray-700 mt-2">{place.description}</p>
-                </CardContent>
-              </Card>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <div className="w-full">
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            autoplay={{ delay: 2000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            spaceBetween={20}
+            slidesPerView={1}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+          >
+            {attractions.map((place, index) => (
+              <SwiperSlide key={index}>
+                <Card className="overflow-hidden shadow-lg rounded-2xl">
+                  <img
+                    src={
+                      typeof place.img === "string"
+                        ? place.img
+                        : (place.img as any).src
+                    }
+                    alt={place.alt}
+                    className="w-full h-48 object-cover rounded-t-2xl"
+                  />
+                  <CardContent className="p-4 text-left">
+                    <h3 className="text-xl font-semibold text-amber-800">
+                      {place.title}
+                    </h3>
+                    <p className="text-sm text-gray-700 mt-2">
+                      {place.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
     </section>
   );
