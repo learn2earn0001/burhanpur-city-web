@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const FooterNewsletter = () => (
-  <div className="text-center max-w-xs mx-auto">
+  <div className="  ">
     <h3 className="font-bold text-xl mb-3">Newsletter</h3>
     <p className="text-md font-normal mb-4">Stay updated with the latest travel deals and tips!</p>
     <div className="flex">

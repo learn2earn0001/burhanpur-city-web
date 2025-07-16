@@ -8,6 +8,7 @@ import Profile from '@/Pages/dashboard/dash_component/ProfilePage';
 import DashboardMain from '@/Pages/dashboard/dashboardMain';
 import Explore from '@/Pages/explorepart/Explore';
 import ExploreDesktop from '@/Pages/explorepart/explore_component/ExploreDesktop';
+import AsirgarhFort from '@/Pages/explorepart/explore_component/ExploreDetails/AsirgarhFort';
 // import ExploreBurhanpur from '@/Pages/explorepart/explore_component/ExploreDesktop';
 import DargahHakimi from '@/Pages/explorepart/explore_component/ExploreDetails/DargahHakimi';
 import Railway from '@/Pages/explorepart/explore_component/ExploreDetails/Railway';
@@ -48,6 +49,8 @@ const  MainRoutes: React.FC = () => {
         <Route path="/RailwayStaion" element={<Railway />} />
         <Route path="/ShahiQila" element={<ShahiQila />} />
         <Route path="/DargahHakimi" element={<DargahHakimi />} />
+                <Route path="/AsirgarhFort" element={<AsirgarhFort/>} />
+
         <Route path="/category" element={<CategorySection />} />
         <Route path="/pricing" element={<Plans />}/>
 
