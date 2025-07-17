@@ -16,13 +16,15 @@ import ShahiQila from '@/Pages/explorepart/explore_component/ExploreDetails/Shah
 import ExplorePhoneview from '@/Pages/explorepart/explore_component/ExplorePhoneview';
 import Home from '@/Pages/home/Home';
  
-import LoginPage from '@/Pages/home/login/Login';
-import ForgotPassword from '@/Pages/Login/ForgotPassword';
-import Signin from '@/Pages/Login/Signin';
+ 
+
+import Signin from '@/Login/Signin';
 import Plans from '@/Pages/plans/Plans';
 import RegisterPage from '@/Pages/registration/Registration';
 import React from 'react';
 import { Routes, Route} from 'react-router-dom';
+import LoginPage from '@/Pages/home/login/Login';
+import ForgotPassword from '@/Login/ForgotPassword';
 
 
 // Pages

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+ ; // ✅ Use your axios instance!
 import NavLinks from "./navComponent/NavLinks";
-
 import Sidebar from "./navComponent/Sidebar";
 import RegisterModal from "./navComponent/RegisterModel";
 import Logo from "./navComponent/Logo";
-// import UserMenu from "./navComponent/UserMenu";
-import { useNavigate } from "react-router-dom";
 import UserMenu from "./navComponent/UserMenu";
+import axois from "@/axois";
+ 
 
 interface User {
   name?: string;
   email?: string;
   phone?: string;
   avatarUrl?: string;
+  role?: string; // ✅ For role-based dashboard
 }
 
 const NavbarMain: React.FC = () => {
@@ -22,19 +22,23 @@ const NavbarMain: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  // const [setShowDropdown,setShowDropdown]=useState
+
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       if (token) {
         try {
-          const res = await axios.get("/Users/userDetails", {
-            headers: { Authorization: `Bearer ${token} ` },
+          const res = await axois.get("/Users/userDetails", {
+            headers: { Authorization: `Bearer ${token}` },
           });
-          if (res.data.success) setUser(res.data.user);
+          if (res.data.success) {
+            setUser(res.data.result);
+          }
         } catch {
-          localStorage.removeItem("token");
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("userData");
           setUser(null);
         }
       }
@@ -43,21 +47,19 @@ const NavbarMain: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
     setUser(null);
+    navigate("/signin");
   };
 
   return (
     <>
-      {/* Fixed, always visible Navbar */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
         <div className="max-w-screen-xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           <Logo scrolled={true} />
           <NavLinks scrolled={true} />
-          <div
-            className="flex items-center gap-4"
-            onClick={() => navigate("/signin")}
-          >
+          <div className="flex items-center gap-4">
             <UserMenu
               user={user}
               showDropdown={showProfileDropdown}
@@ -67,7 +69,7 @@ const NavbarMain: React.FC = () => {
               onOpenRegister={() => setShowRegisterModal(true)}
             />
 
-            {/* Mobile menu icon */}
+            {/* ✅ Only show sidebar toggle if logged in */}
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
@@ -80,17 +82,24 @@ const NavbarMain: React.FC = () => {
                 className="w-8 h-8"
               />
             </button>
+
+            {/* ✅ If user is null, show sign-in button */}
+            {!user && (
+              <button
+                onClick={() => navigate("/signin")}
+                className="text-sm px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </header>
 
-      {/* Push content below fixed navbar with smaller gap */}
       <div className="h-20" />
 
-      {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Register Modal */}
       {showRegisterModal && (
         <RegisterModal
           onClose={() => setShowRegisterModal(false)}
