@@ -1,60 +1,106 @@
-// components/dashboard/Sidebar.tsx
-import { useNavigate } from "react-router-dom";
-import clsx from "clsx";
 
-const items = [
-  { name: "Overview", icon: "📊", link: "overview" },
-  { name: "Leads", icon: "📋", link: "leads" },
-  { name: "Inbox", icon: "📨", badge: 4, link: "inbox" },
-  { name: "Clients", icon: "👥", link: "clients" },
-  { name: "Settings", icon: "⚙️", link: "settings" },
-  { name: "Business", icon: "📊", link: "business" },
-];
+import { BarChart3, Users, Building2, Settings, MessageSquare, X } from 'lucide-react';
 
-const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const navigate = useNavigate();
+interface SidebarProps {
+  activeSection: string;
+  setActiveSection: (section: string) => void;
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+}
+
+export const Sidebar = ({ activeSection, setActiveSection, sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const menuItems = [
+    { id: 'overview', label: 'Overview', icon: BarChart3 },
+    { id: 'leads', label: 'Leads', icon: Users },
+    { id: 'listings', label: 'Business Listings', icon: Building2 },
+    { id: 'messaging', label: 'Messages', icon: MessageSquare },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ];
+
+  const handleItemClick = (itemId: string) => {
+    setActiveSection(itemId);
+    setSidebarOpen(false); // Close sidebar on mobile after selection
+  };
 
   return (
     <>
-      {/* Overlay for small screens */}
-      <div
-        className={clsx(
-          "fixed inset-0 bg-purple bg-opacity-30 z-40 transition-opacity sm:hidden",
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        )}
-        onClick={onClose}
-      />
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
+        <div className="flex flex-col flex-grow bg-white border-r border-gray-200 shadow-lg">
+          <div className="flex items-center justify-center h-16 px-4 border-b border-gray-100">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
+              BizDash
+            </h1>
+          </div>
 
-      {/* Sidebar */}
-      <aside
-        className={clsx(
-          "fixed top-0 left-0 h-full w-64 bg-gradient-to-r from-purple-300 to-purple-500 z-50 shadow-lg transform transition-transform duration-300 sm:static sm:translate-x-0 sm:flex-shrink-0 sm:h-auto sm:w-56 sm:rounded-lg sm:shadow p-3 overflow-y-auto",
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        )}
-      >
-        <div className="space-y-4">
-          {items.map((item, idx) => (
-            <button
-              key={idx}
-              className="flex w-full items-center text-lg rounded-lg py-3 px-5 font-medium text-purple-700 hover:bg-white transition"
-              onClick={() => {
-                navigate(`/dash/${item.link}`);
-                onClose(); // Close sidebar after navigation on small screen
-              }}
-            >
-              <span className="text-xl mr-3">{item.icon}</span>
-              <span>{item.name}</span>
-              {item.badge && (
-                <span className="ml-auto text-xs bg-purple-100 text-purple-700 rounded-full px-2 py-0.5">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
+          <nav className="flex-1 px-4 py-6 space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeSection === item.id;
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleItemClick(item.id)}
+                  className={`w-full flex items-center px-4 py-3 rounded-xl font-medium transition-all duration-200 group ${
+                    isActive
+                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg'
+                      : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600'
+                  }`}
+                >
+                  <Icon size={20} className="mr-3 transition-colors" />
+                  <span className="transition-opacity duration-200">
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
         </div>
-      </aside>
+      </div>
+
+      {/* Mobile Sidebar */}
+      <div className={`lg:hidden fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 shadow-xl transform transition-transform duration-300 ease-in-out ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex flex-col h-full">
+          <div className="flex items-center justify-between h-16 px-4 border-b border-gray-100">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
+              BizDash
+            </h1>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <X size={20} className="text-gray-600" />
+            </button>
+          </div>
+
+          <nav className="flex-1 px-4 py-6 space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeSection === item.id;
+              
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleItemClick(item.id)}
+                  className={`w-full flex items-center px-4 py-4 rounded-xl font-medium transition-all duration-200 touch-manipulation ${
+                    isActive
+                      ? 'bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg'
+                      : 'text-gray-600 hover:bg-purple-50 hover:text-purple-600 active:bg-purple-100'
+                  }`}
+                >
+                  <Icon size={20} className="mr-3 transition-colors" />
+                  <span className="transition-opacity duration-200">
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
     </>
   );
 };
-
-export default Sidebar;
