@@ -16,7 +16,7 @@ import ExplorePhoneview from '@/Pages/explorepart/explore_component/ExplorePhone
 import Home from '@/Pages/home/Home';
  
  
- 
+
 import Signin from '@/Login/Signin';
 import Plans from '@/Pages/plans/Plans';
 import RegisterPage from '@/Pages/registration/Registration';
