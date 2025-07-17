@@ -1,8 +1,9 @@
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import logoImage from "../../../../../public/assets/logo.png"; 
 
 const FooterLogoSection = () => (
   <div className="text-center sm:text-left">
-    <img className="mx-auto sm:mx-0 rounded-full" src="" alt="logo" style={{ width: "60px" }} />
+    <img className="w-14 h-14 mx-auto sm:mx-0 rounded-full" src={logoImage} alt="logo" />
     <p className="text-md font-normal mt-4 mb-4 max-w-xs mx-auto sm:mx-0">
       Empowering your journeys with trusted travel services and unforgettable experiences.
     </p>
