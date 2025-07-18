@@ -5,7 +5,7 @@ import Asirgarh from '../../../../public/assets/asirgarh.jpg';
 import ShahiQila from '../../../../public/assets/shahiqila.jpg';
 import Dargahaehakimi from '../../../../public/assets/Dargah.jpg';
 import Aahukhana from '../../../../public/assets/Aahukhana.jpeg';
-import Tapti from'../../../../public/assets/Tapti.jpeg';
+import Tapti from '../../../../public/assets/Tapti.jpeg';
 
 // ✅ Define Type for Place
 interface Place {
@@ -31,6 +31,13 @@ const places: Place[] = [
     delay: 0.4,
   },
   {
+    name: "Kundi Bhandara",
+    image: Tapti,
+    description:
+      "Kundi Bhandara is a 17th-century underground water management system in Burhanpur, built using Persian qanat technology. It features a 3.9 km tunnel and over 100 vertical wells (kundis) that collect and channel fresh water entirely by gravity—no pumps or motors.",
+    delay: 1.0,
+  },
+  {
     name: "Ahukhana (Deer Park)",
     image: Aahukhana,
     description:
@@ -45,12 +52,34 @@ const places: Place[] = [
     delay: 0.8,
   },
   {
+    name: "Tomb of Shah Nawaz Khan(Black Taj)",
+    image: ShahiQila,
+    description:
+      "Built around 1619 from black stone, it echoes small‑scale Taj‑inspired architecture with a central dome and corner minarets .",
+    delay: 1.0,
+  },
+  {
+    name: "Raja Ki Chhatri",
+    image: "https://www.trawell.in/admin/images/upload/166078838Burhanpur_Raja_Jai_Singh_ki_Chhatri_Main.jpg",
+    description:
+      "Raja Ki Chhatri is a stunning cenotaph located on the banks of the Tapti River in Burhanpur. This monument is known for its symmetrical architecture, intricate carvings, and serene surroundings. Built in memory of Raja Jai Singh, this chhatri is a beautiful example of Rajput-Mughal architecture.",
+    delay: 1.0,
+  },
+  {
     name: "Tapti River Front",
-    image: Tapti,
+    image: "https://inditales.com/wp-content/uploads/2018/10/tapti-ghat-burhanpur.jpg",
     description:
       "The Tapti River adds charm to the city of Burhanpur. Its banks have historically supported settlement, trade, and culture. Visitors can enjoy tranquil river views, picnics, and scenic walks along its green banks.",
     delay: 1.0,
-  }
+  },
+  {
+    name: "Jama Masjid",
+    image: "https://www.trawell.in/admin/images/upload/166078200Burhanpur_Jama_Masjid_Main.jpg",
+    description:
+      "Commissioned by Adil Shah IV (Faruqi dynasty) between 1588–90; distinctive for its bilingual Sanskrit–Arabic inscriptions and black‑stone pillars. Jama Masjid in Burhanpur is an iconic example of Islamic architecture in Central India. It is known for its grand arches, towering minarets, and spacious prayer halls.",
+    delay: 1.0,
+  },
+
 ];
 
 const ExploreDesktop: React.FC = () => {
