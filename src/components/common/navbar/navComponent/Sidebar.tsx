@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 >
                   <li>
                     <NavLink
-                      to="/explore-more"
+                      to="/explore-phone"
                       onClick={onClose}
                       className={({ isActive }) =>
                         isActive ? activeClass : inactiveClass

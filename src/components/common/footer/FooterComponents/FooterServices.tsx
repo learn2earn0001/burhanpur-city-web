@@ -3,11 +3,11 @@ import { FooterContent } from "./FooterContact";
 
 const FooterServices = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 justify-around gap-4 pb-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-around gap-6">
       {FooterContent.map((section) => (
         <div key={section.title}>
-          <h3 className="font-bold text-lg mb-4">{section.title}</h3>
-          <ul className="text-md font-normal space-y-2">
+          <h3 className="font-bold text-lg mb-3">{section.title}</h3>
+          <ul className="space-y-2 text-md">
             {section.links.map((link) => (
               <li key={link.name}>
                 <Link to={link.href} className="hover:text-pink-500 transition">

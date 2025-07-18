@@ -63,7 +63,7 @@ const NavLinks: React.FC<Props> = ({ scrolled }) => {
           <NavigationMenuContent className="bg-white rounded-md shadow-lg p-2 min-w-[180px] space-y-1">
             <NavigationMenuLink asChild>
               <Link
-                to="/explore"
+                to="/explore-more"
                 className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
               >
                 More Explore
