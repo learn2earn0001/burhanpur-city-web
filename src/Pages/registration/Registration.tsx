@@ -3,14 +3,13 @@ import {
   FiLock,
   FiEye,
   FiEyeOff,
-  FiUser,
-  FiMail,
-  FiPhone,
   FiX,
 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+
 import toast from "react-hot-toast";
 import axios from "@/axois";
+ 
+  // ✅ Make sure spelling is correct!
 
 interface RegistrationProps {
   onClose?: () => void;
@@ -32,7 +31,6 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -82,7 +80,7 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
         owner: role === "owner" ? name : "",
       };
 
-      const res = await axios.post("/Users/createUser", payload);
+      await axios.post("/Users/createUser", payload); // ✅ res removed
       toast.success("🎉 Registration successful!");
       setIsLogin(true);
     } catch (err: any) {
@@ -113,11 +111,12 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
       }
       localStorage.setItem("authToken", token);
 
-      const userRes = await axios.get("/Users/me", {
+      await axios.get("/Users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      }); // ✅ userRes removed
+
       if (onClose) onClose();
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid credentials");
@@ -125,6 +124,7 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
       setLoading(false);
     }
   };
+
   return (
     <div className="w-full max-w-md mx-auto px-4">
       <div className="relative bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-2xl">
@@ -138,24 +138,6 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
         )}
 
         {/* Tabs */}
-        {/* <div className="flex justify-center mb-6">
-          <button
-            className={`px-4 py-2 text-sm font-medium rounded-full transition ${
-              isLogin ? "text-gray-500" : "text-white bg-purple-600"
-            }`}
-            onClick={() => setIsLogin(false)}
-          >
-            Register
-          </button>
-          <button
-            className={`px-4 py-2 text-sm font-medium rounded-full transition ml-2 ${
-              isLogin ? "text-white bg-purple-600" : "text-gray-500"
-            }`}
-            onClick={() => setIsLogin(true)}
-          >
-            Login
-          </button>
-        </div> */}
         <div className="flex bg-gray-200 rounded-xl p-1 mb-6">
           <button
             className={`w-1/2 py-2 text-sm font-semibold rounded-xl transition-all duration-300 ${
@@ -283,6 +265,7 @@ const Registration: React.FC<RegistrationProps> = ({ onClose }) => {
 
             <button
               type="submit"
+              disabled={loading}
               className="w-full bg-purple-600 text-white py-2 rounded-xl hover:bg-purple-700 transition duration-300"
             >
               {loading ? "Registering..." : "Register"}
